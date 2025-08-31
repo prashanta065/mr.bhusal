@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mister Bhusal – AI Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f8fc;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --primary:#4f46e5;
+    --primary-2:#6d5ef6;
+    --accent:#06b6d4;
+    --shadow:0 10px 30px rgba(15, 23, 42, 0.08);
+    --ring:0 0 0 3px rgba(79,70,229,.15);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:'Inter',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#0f172a}
+
+  /* Floating button */
+  .ai-fab{
+    position:fixed;right:20px;bottom:20px;z-index:9999;
+    display:flex;align-items:center;gap:10px;
+    border:none;cursor:pointer;padding:14px 18px;border-radius:999px;
+    color:#fff;font-weight:700;font-size:15px;letter-spacing:.2px;
+    background:linear-gradient(135deg,var(--primary),var(--accent));
+    box-shadow:0 15px 30px rgba(79,70,229,.3);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .ai-fab:hover{ transform:translateY(-2px); box-shadow:0 20px 40px rgba(79,70,229,.35); }
+  .ai-fab .logo{
+    width:28px;height:28px;border-radius:8px;
+    background:conic-gradient(from 180deg at 50% 50%, var(--primary), var(--primary-2), var(--accent), var(--primary));
+    box-shadow:inset 0 0 10px rgba(255,255,255,.25);
+  }
+
+  /* Modal */
+  .ai-overlay{ display:none; position:fixed; inset:0; background:rgba(15,23,42,.28); backdrop-filter: blur(6px); z-index:9998; }
+  .ai-modal{
+    position:fixed; inset:auto; left:50%; top:50%; transform:translate(-50%, -50%);
+    width:420px; max-width:92vw; height:72vh; max-height:90vh;
+    background:var(--card); border-radius:20px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; overflow:hidden; z-index:10000;
+  }
+
+  /* Header */
+  .ai-header{
+    position:relative;
+    padding:14px 16px;
+    background:linear-gradient(180deg,#ffffff 0%, #fafbff 100%);
+    border-bottom:1px solid #eef2ff; display:flex;align-items:center;justify-content:space-between;
+    cursor:grab;
+  }
+  .ai-title{display:flex;align-items:center;gap:10px;font-weight:700}
+  .ai-title .badge{
+    font-size:12px;padding:4px 8px;border-radius:999px;
+    background:#eef2ff;color:#3730a3;font-weight:700;letter-spacing:.2px;
+  }
+  .ai-actions{display:flex;align-items:center;gap:8px}
+  .ai-icon-btn{
+    width:36px;height:36px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;
+    display:grid;place-items:center;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, border .15s ease;
+  }
+  .ai-icon-btn:hover{ transform:translateY(-1px); box-shadow:var(--ring); }
+  .ai-close{font-size:18px;line-height:0}
+
+  /* Body */
+  .ai-suggestions{
+    display:flex; flex-wrap:wrap; gap:8px; padding:10px 14px; border-bottom:1px solid #eef2ff; background:#fff;
+  }
+  .chip{
+    font-size:12px; font-weight:600; color:#334155; background:#eef2ff;
+    border:1px solid #e5e7eb; padding:8px 10px; border-radius:999px; cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip:hover{ background:#e0e7ff; transform:translateY(-1px); }
+
+  .ai-chat{ flex:1; padding:14px; overflow:auto; background:
+    radial-gradient(1200px 600px at -10% -20%, #ffffff 0%, rgba(255,255,255,0) 60%),
+    radial-gradient(800px 500px at 120% 0%, #f0f9ff 0%, rgba(255,255,255,0) 60%),
+    radial-gradient(900px 600px at 50% 130%, #fff7ed 0%, rgba(255,255,255,0) 60%); }
+  .msg{ max-width:80%; padding:12px 14px; border-radius:16px; margin:8px 0; position:relative;
+        box-shadow:0 6px 20px rgba(2,6,23,.06); animation:slideIn .18s ease both; }
+  .user{ margin-left:auto; background:linear-gradient(135deg,#4f46e5,#06b6d4); color:#fff; border-bottom-right-radius:6px; }
+  .bot{  margin-right:auto; background:#fff; border:1px solid #eef2ff; color:#0f172a; border-bottom-left-radius:6px;}
+  @keyframes slideIn{ from{transform:translateY(6px);opacity:.0} to{transform:translateY(0);opacity:1} }
+
+  .typing{display:flex;align-items:center;gap:6px;margin:8px 0;color:#475569}
+  .dot{width:8px;height:8px;border-radius:50%;background:#a5b4fc;animation:bounce 1.2s infinite}
+  .dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+  @keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+
+  /* Cards */
+  .card{
+    background:#ffffff; border:1px solid #eef2ff; border-radius:16px; padding:12px; margin-top:8px;
+    box-shadow:var(--shadow); transition:transform .2s ease;
+  }
+  .card:hover{ transform:translateY(-2px) }
+  .grid{ display:grid; gap:10px }
+  .grid.cols-2{ grid-template-columns:1fr 1fr }
+  .grid.cols-3{ grid-template-columns:repeat(3,1fr) }
+  .tag{ font-size:12px; padding:6px 10px; border-radius:999px; background:#f1f5f9; border:1px solid #e5e7eb; display:inline-block; margin:4px 4px 0 0 }
+
+  /* Footer / input */
+  .ai-input{
+    display:flex;align-items:center;gap:8px;padding:10px;border-top:1px solid #eef2ff;background:#fff;
+  }
+  .textfield{
+    flex:1; background:#f8fafc; border:1px solid #e5e7eb; padding:12px 14px;border-radius:14px; outline:none;
+    font-size:14px; transition:border .15s ease, box-shadow .15s ease;
+  }
+  .textfield:focus{ border-color:#c7d2fe; box-shadow:var(--ring); }
+  .send, .mic{
+    width:42px;height:42px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;display:grid;place-items:center;cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease, border .15s ease;
+  }
+  .send:hover, .mic:hover{ transform:translateY(-1px); box-shadow:var(--ring) }
+  .send svg, .mic svg{ width:18px;height:18px }
+
+  /* Mobile tweaks */
+  @media (max-width:520px){
+    .ai-modal{ height:80vh }
+    .msg{ max-width:90% }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating AI button -->
+<button class="ai-fab" id="aiFab">
+  <span class="logo"></span>
+  Ask Prashanta
+</button>
+
+<!-- Overlay + Modal -->
+<div class="ai-overlay" id="aiOverlay"></div>
+<div class="ai-modal" id="aiModal" role="dialog" aria-label="AI Assistant">
+  <div class="ai-header" id="dragHandle">
+    <div class="ai-title">
+      <span class="logo" style="width:20px;height:20px;border-radius:6px"></span>
+      <span>Prashanta’s AI Assistant</span>
+      <span class="badge">Offline</span>
+    </div>
+    <div class="ai-actions">
+      <button class="ai-icon-btn" id="voiceToggle" title="Toggle Voice"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3Z" stroke="#4f46e5" stroke-width="1.8"/><path d="M19 11a7 7 0 1 1-14 0" stroke="#4f46e5" stroke-width="1.8"/><path d="M12 18v3" stroke="#4f46e5" stroke-width="1.8"/></svg></button>
+      <button class="ai-icon-btn ai-close" id="aiClose" title="Close">✕</button>
+    </div>
+  </div>
+
+  <div class="ai-suggestions" id="suggestions"></div>
+
+  <div class="ai-chat" id="chat"></div>
+
+  <div class="ai-input">
+    <input class="textfield" id="input" placeholder="Ask anything about Prashanta Bhusal…" />
+    <button class="mic" id="micBtn" title="Voice input">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3Z" stroke="#0f172a" stroke-width="1.8"/><path d="M19 11a7 7 0 1 1-14 0" stroke="#0f172a" stroke-width="1.8"/><path d="M12 18v3" stroke="#0f172a" stroke-width="1.8"/></svg>
+    </button>
+    <button class="send" id="sendBtn" title="Send">
+      <svg viewBox="0 0 24 24" fill="none"><path d="m4 4 16 8-16 8 4-8-4-8z" stroke="#0f172a" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ---------- UI wiring ---------- */
+const fab = document.getElementById('aiFab');
+const overlay = document.getElementById('aiOverlay');
+const modal = document.getElementById('aiModal');
+const closeBtn = document.getElementById('aiClose');
+const chat = document.getElementById('chat');
+const input = document.getElementById('input');
+const sendBtn = document.getElementById('sendBtn');
+const micBtn = document.getElementById('micBtn');
+const voiceToggle = document.getElementById('voiceToggle');
+const suggestionsWrap = document.getElementById('suggestions');
+
+const openModal = () => { overlay.style.display='block'; modal.style.display='flex'; input.focus(); };
+const closeModal = () => { overlay.style.display='none'; modal.style.display='none'; };
+fab.onclick = openModal; overlay.onclick = closeModal; closeBtn.onclick = closeModal;
+
+/* Drag support */
+(() => {
+  const handle = document.getElementById('dragHandle');
+  let isDrag=false, sx=0, sy=0, ox=0, oy=0;
+  handle.addEventListener('mousedown', (e)=>{ isDrag=true; sx=e.clientX; sy=e.clientY; const r=modal.getBoundingClientRect(); ox=r.left; oy=r.top; handle.style.cursor='grabbing'; });
+  document.addEventListener('mousemove', (e)=>{ if(!isDrag) return; const dx=e.clientX-sx, dy=e.clientY-sy; modal.style.left=(ox+dx)+'px'; modal.style.top=(oy+dy)+'px'; modal.style.transform='translate(0,0)'; modal.style.right='auto'; modal.style.bottom='auto'; });
+  document.addEventListener('mouseup', ()=>{ isDrag=false; handle.style.cursor='grab'; });
+})();
+
+/* ---------- Knowledge Base ---------- */
+const KB = {
+  about: [
+    "Hello! I'm Prashanta Bhusal, a passionate and innovative developer dedicated to crafting modern digital experiences.",
+    "I specialize in web design, graphics, and AI-based solutions.",
+    "I love clean code and creative visuals, bringing ideas to life with precision and flair.",
+    "Active member of Hack Club Butwal — learning, contributing, and growing with a vibrant tech community.",
+    "I build modern and impactful digital experiences."
+  ],
+  education: [
+    "Hansapur Public English Boarding School — Nursery to Grade 8 (2070 BS – 2080 BS).",
+    "Active in AI & IT; Class Captain (Grade 7 & 8); Completed Grade 8 with Best Result.",
+    "Kalika Manavgyan Secondary School — Grade 9–10, specialization: Computer Engineering.",
+    "Learning DBMS, Web Development, AI basics.",
+    "Treasurer of Hack Club Butwal; Participated in Tech Fairs."
+  ],
+  projects: [
+    { title:"Logo Designs", desc:"Clean, memorable brand marks and visual identity packs." },
+    { title:"Marketing Banners", desc:"High-converting banner sets for campaigns and social." },
+    { title:"Presentations", desc:"Professional, story-driven presentations for education/business." },
+    { title:"Business Cards", desc:"Minimal and premium visiting cards with print-ready files." },
+    { title:"Flyers", desc:"Eye-catching promo flyers for events and brands." },
+    { title:"Certificates", desc:"Elegant certificates with proper layout and typography." },
+  ],
+  skills: {
+    "Graphic Designing":[
+      "Visual communication, composition, and clarity.",
+      "Tools: Canva, Photoshop, Figma, Adobe Illustrator.",
+      "Branding & Logo Design, Color Theory"
+    ],
+    "Web Development":[
+      "Modern, responsive websites with clean code.",
+      "HTML5 & CSS3, JavaScript (ES6+), Git & GitHub, Responsive Design"
+    ],
+    "Presentation Making":[
+      "Education & business presentations.",
+      "Microsoft PowerPoint, Google Slides, Canva, Slide Design Principles, Data Visualization"
+    ],
+    "AI & Automation":[
+      "Leverage AI tools & automation for productivity.",
+      "ChatGPT & GPT APIs (concepts), Data Analysis"
+    ],
+    "Programming":[
+      "Problem solving & building apps.",
+      "JavaScript, OOP, Data Structures & Algorithms, Version Control (Git), Debugging & Testing"
+    ],
+    "Communication & Teamwork":[
+      "Interpersonal collaboration skills.",
+      "Active Listening, Presentation Skills, Conflict Resolution, Collaboration Tools, Remote Team Coordination"
+    ]
+  },
+  services: [
+    "Web Design & Development",
+    "Graphics & Branding (Logos, Banners, Flyers, Cards, Certificates)",
+    "Presentation Design",
+    "AI-Automation Consulting",
+    "Front-end Prototyping (Figma → Code)"
+  ],
+  contact: {
+    email: "www.prashantabhusal@gmail.com",
+    phone: "+977 9766654639",
+    location: "Malarani-07, Arghakhanchi, Nepal",
+    linkedin: "linkedin.com/in/prashantabhusal",
+    website: "misterbhusal.vercel.app",
+    hours: [
+      "Mon–Fri: 4:00 AM – 7:00 AM & 8:00 PM – 10:00 PM",
+      "Sat: 10:00 AM – 3:00 PM",
+      "Sun: Closed"
+    ]
+  }
+};
+
+/* Flattened corpus for fuzzy search */
+const CORPUS = [
+  ...KB.about,
+  ...KB.education,
+  ...KB.projects.map(p => `${p.title}: ${p.desc}`),
+  ...Object.entries(KB.skills).flatMap(([k, arr])=>[k, ...arr]),
+  ...KB.services,
+  `Email: ${KB.contact.email}`,
+  `Phone: ${KB.contact.phone}`,
+  `LinkedIn: ${KB.contact.linkedin}`,
+  `Location: ${KB.contact.location}`,
+  `Website: ${KB.contact.website}`,
+  ...KB.contact.hours.map(h=>`Hours: ${h}`)
+];
+
+/* ---------- Suggestion Chips ---------- */
+const baseSuggestions = [
+  "Who is Prashanta?",
+  "Show skills",
+  "Show projects",
+  "Education details",
+  "What services do you offer?",
+  "How to contact you?",
+  "Working hours?"
+];
+function renderSuggestions(list=baseSuggestions){
+  suggestionsWrap.innerHTML='';
+  list.forEach(txt=>{
+    const chip=document.createElement('button');
+    chip.className='chip';
+    chip.innerText=txt;
+    chip.onclick=()=>sendUser(txt);
+    suggestionsWrap.appendChild(chip);
+  });
+}
+renderSuggestions();
+
+/* ---------- Chat Helpers ---------- */
+function addMsg(text, who='bot', asHTML=false){
+  const div=document.createElement('div');
+  div.className=`msg ${who}`;
+  if(asHTML) div.innerHTML=text; else div.textContent=text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+function addTyping(){
+  const row=document.createElement('div');
+  row.className='typing';
+  row.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  chat.appendChild(row);
+  chat.scrollTop = chat.scrollHeight;
+  return ()=>row.remove();
+}
+
+/* ---------- Intent Detection & Answer Builders ---------- */
+const kw = (s, arr)=>arr.some(k=>s.includes(k));
+function htmlList(items){ return `<div class="grid">${items.map(i=>`<div class="card">${i}</div>`).join('')}</div>`; }
+function htmlTags(items){ return items.map(i=>`<span class="tag">${i}</span>`).join(''); }
+
+function answerAbout(){
+  return `<div class="card"><strong>About Prashanta</strong><div style="margin-top:6px;color:#374151">
+    ${KB.about.map(p=>`<p style="margin:6px 0">${p}</p>`).join('')}
+  </div></div>`;
+}
+function answerSkills(){
+  const sections = Object.entries(KB.skills).map(([title, lines])=>`
+    <div class="card">
+      <strong>${title}</strong>
+      <div style="margin-top:6px;color:#374151">
+        ${lines.map(l=>`<p style="margin:6px 0">${l}</p>`).join('')}
+      </div>
+    </div>
+  `);
+  return `<div class="grid">${sections.join('')}</div>`;
+}
+function answerProjects(){
+  const cards = KB.projects.map(p=>`
+    <div class="card">
+      <strong>${p.title}</strong>
+      <p style="margin:6px 0;color:#374151">${p.desc}</p>
+    </div>
+  `);
+  return `<div class="grid">${cards.join('')}</div>`;
+}
+function answerEducation(){
+  return `<div class="card"><strong>Education</strong>
+    <div style="margin-top:6px;color:#374151">
+      ${KB.education.map(e=>`<p style="margin:6px 0">${e}</p>`).join('')}
+    </div>
+  </div>`;
+}
+function answerServices(){
+  return `<div class="card"><strong>Services</strong><div style="margin-top:8px">${htmlTags(KB.services)}</div></div>`;
+}
+function answerContact(){
+  const c = KB.contact;
+  return `<div class="grid">
+    <div class="card"><strong>Contact</strong>
+      <p style="margin:6px 0">Email: <a href="mailto:${c.email}">${c.email}</a></p>
+      <p style="margin:6px 0">Phone: <a href="tel:${c.phone}">${c.phone}</a></p>
+      <p style="margin:6px 0">LinkedIn: <a href="https://${c.linkedin}" target="_blank">${c.linkedin}</a></p>
+      <p style="margin:6px 0">Website: <a href="https://${c.website}" target="_blank">${c.website}</a></p>
+      <p style="margin:6px 0">Location: ${c.location}</p>
+    </div>
+    <div class="card"><strong>Working Hours</strong>
+      <div style="margin-top:6px;color:#374151">
+        ${c.hours.map(h=>`<p style="margin:6px 0">${h}</p>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* Fuzzy: token overlap */
+function sim(a,b){
+  const ta = a.toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(Boolean);
+  const tb = b.toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(Boolean);
+  const setA = new Set(ta), setB = new Set(tb);
+  let inter = 0; setA.forEach(t=>{ if(setB.has(t)) inter++; });
+  const jacc = inter / Math.max(1, setA.size + setB.size - inter);
+  return jacc;
+}
+function bestCorpus(q){
+  let best = {s:'',score:0};
+  CORPUS.forEach(s=>{
+    const score = sim(q, s);
+    if(score>best.score) best={s,score};
+  });
+  return best.score>=0.18 ? best.s : null;
+}
+
+function route(q){
+  const s = q.toLowerCase();
+  if(kw(s, ['who are you','who is prashanta','about','bio','yourself'])) return {html:answerAbout()};
+  if(kw(s, ['skill','skills','stack','tech','tools'])) return {html:answerSkills()};
+  if(kw(s, ['project','work','portfolio','examples'])) return {html:answerProjects()};
+  if(kw(s, ['educat','school','grade','study'])) return {html:answerEducation()};
+  if(kw(s, ['service','offer','what do you do','can you do'])) return {html:answerServices()};
+  if(kw(s, ['contact','email','phone','linkedin','website','location','address','hours','time','schedule'])) return {html:answerContact()};
+
+  // Fallback to best matching sentence from your data
+  const hit = bestCorpus(s);
+  if(hit) return {html:`<div class="card">${hit}</div>`};
+
+  return {html:`<div class="card">I can answer anything about Prashanta’s <strong>About, Skills, Projects, Education, Services, Contact,</strong> and <strong>Working Hours</strong>. Try: <em>“Show skills”, “Education details”, “Working hours?”</em></div>`};
+}
+
+/* ---------- Voice (TTS & STT) ---------- */
+let voiceEnabled = true;
+voiceToggle.onclick = ()=>{ voiceEnabled = !voiceEnabled; voiceToggle.style.boxShadow = voiceEnabled ? 'var(--ring)' : 'none'; };
+
+function pickVoice(preferred){
+  const list = window.speechSynthesis.getVoices();
+  if(!list.length) return null;
+  // Prefer high-quality English, then Nepali if Devanagari present
+  const prefer = preferred || ['Google UK English Female','Google US English','Microsoft Aria Online (Natural) - English (United States)'];
+  for(const p of prefer){
+    const v = list.find(v=>v.name.includes(p));
+    if(v) return v;
+  }
+  // Fallback to any en or ne voice
+  return list.find(v=>/en-|ne-/.test(v.lang)) || list[0];
+}
+
+function speak(text){
+  if(!voiceEnabled || !('speechSynthesis' in window)) return;
+  const clean = text.replace(/<[^>]+>/g,' ');
+  const chunks = clean.split(/(?<=[\.\?\!])\s+/g).filter(Boolean); // natural pacing
+  let i=0;
+  const speakNext = ()=>{
+    if(i>=chunks.length) return;
+    const u = new SpeechSynthesisUtterance(chunks[i]);
+    const hasDevanagari = /[अ-ह]/.test(chunks[i]);
+    u.voice = pickVoice(hasDevanagari ? [] : undefined);
+    u.lang = hasDevanagari ? 'ne-NP' : 'en-US';
+    u.rate = hasDevanagari ? 0.95 : 0.98;
+    u.pitch = 1.05;
+    u.volume = 1.0;
+    u.onend = ()=>{ i++; speakNext(); };
+    window.speechSynthesis.speak(u);
+  };
+  // Ensure voices loaded
+  if(!window.speechSynthesis.getVoices().length){
+    window.speechSynthesis.onvoiceschanged = ()=>speakNext();
+  } else speakNext();
+}
+
+/* Speech-to-text (Chrome-based) */
+let recognizer = null;
+if('webkitSpeechRecognition' in window){
+  recognizer = new webkitSpeechRecognition();
+  recognizer.lang = 'ne-NP,en-US';
+  recognizer.interimResults = false;
+  micBtn.onclick = ()=> recognizer.start();
+  recognizer.onresult = (e)=> sendUser(e.results[0][0].transcript);
+} else {
+  micBtn.onclick = ()=> alert('Voice input not supported in this browser.');
+}
+
+/* ---------- Send & Flow ---------- */
+function sendUser(text){
+  if(!text) return;
+  addMsg(text, 'user');
+  input.value = '';
+  const stopTyping = addTyping();
+  setTimeout(()=>{
+    stopTyping();
+    const {html} = route(text);
+    addMsg(html, 'bot', true);
+    speak(html);
+    // Contextual suggestions
+    if(/skill/i.test(text)) renderSuggestions(["Show projects","Education details","What services do you offer?","How to contact you?"]);
+    else if(/project|work/i.test(text)) renderSuggestions(["Show skills","Education details","Working hours?","Contact info"]);
+    else if(/educat|school/i.test(text)) renderSuggestions(["Show skills","Show projects","Contact info","Working hours?"]);
+    else if(/service|offer/i.test(text)) renderSuggestions(["Show projects","Show skills","Contact info"]);
+    else if(/contact|email|phone|linkedin|hours|time|schedule/i.test(text)) renderSuggestions(["Working hours?","Show services","Show projects"]);
+    else renderSuggestions();
+  }, 500);
+}
+
+sendBtn.onclick = ()=> sendUser(input.value.trim());
+input.addEventListener('keydown', (e)=>{ if(e.key==='Enter') sendUser(input.value.trim()); });
+
+/* ---------- Welcome Message ---------- */
+setTimeout(()=>{
+  addMsg(`<div><strong>Namaste! I'm Prashanta’s AI Assistant.</strong><br/>
+  Ask me anything about my <em>skills</em>, <em>projects</em>, <em>education</em>, <em>services</em>, <em>contact</em>, or <em>working hours</em>.
+  Try: <span class="tag">Show skills</span> <span class="tag">Education details</span> <span class="tag">Working hours?</span></div>`, 'bot', true);
+  speak("Namaste! I'm Prashanta’s AI Assistant. Ask me anything about skills, projects, education, services, contact, or working hours.");
+}, 300);
+</script>
+</body>
+</html>

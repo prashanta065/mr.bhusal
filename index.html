@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mr. Bhusal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/typewriter-effect@2.18.0/dist/core.js"></script>
+   <link rel="icon" href="/logopb.png" type="image/png" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #f4f2f2 0%, #ffffff 100%);
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Animated background particles */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0;1;0" dur="4s" repeatCount="indefinite"/></circle><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/></circle></svg>') repeat;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    header {
+      position: static;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px rgba(66, 133, 244, 0.3), 0 0 20px rgba(66, 133, 244, 0.2);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1000px;
+      margin: 1rem auto 0 auto;
+      z-index: 1500;
+      user-select: none;
+      animation: slideDown 0.8s ease-out;
+      
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #111827;
+      animation: fadeInLeft 1s ease-out 0.3s both;
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        transform: translateX(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .logo img {
+      height: 32px;
+      width: 32px;
+      border-radius: 9999px;
+      object-fit: cover;
+      user-select: none;
+      transition: transform 0.3s ease;
+    }
+
+    .logo img:hover {
+      transform: rotate(360deg) scale(1.1);
+    }
+
+    nav.desktop-nav {
+      display: flex;
+      gap: 1rem; /* Reduced gap from 2rem to 1rem for better spacing */
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #111827;
+      animation: fadeInUp 1s ease-out 0.5s both;
+      justify-content: center; /* Added center alignment for navbar links */
+      align-items: center; /* Added vertical center alignment */
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    nav.desktop-nav a {
+      position: relative;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    nav.desktop-nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+
+    nav.desktop-nav a:hover::before,
+    nav.desktop-nav a.active::before {
+      left: 0;
+    }
+
+    nav.desktop-nav a:hover,
+    nav.desktop-nav a.active {
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    }
+
+    #auth-buttons {
+      display: flex;
+      gap: 1rem;
+      animation: fadeInRight 1s ease-out 0.7s both;
+    }
+
+    @keyframes fadeInRight {
+      from {
+        transform: translateX(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .btn-login, .btn-signup {
+      font-weight: 600;
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .btn-login::before, .btn-signup::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+      transition: all 0.3s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .btn-login:hover::before, .btn-signup:hover::before {
+      width: 200px;
+      height: 200px;
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, #4f46e5, #3b36d8);
+      color: white;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(79, 70, 229, 0.6);
+    }
+
+    .btn-signup {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+    }
+
+    /* Enhanced avatar dropdown styling */
+    .avatar-container {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .avatar-dropdown {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      padding: 0.5rem 0;
+      min-width: 150px;
+      display: none;
+      z-index: 1000;
+      animation: dropdownSlide 0.3s ease-out;
+      border: 1px solid rgba(79, 70, 229, 0.1);
+    }
+
+    @keyframes dropdownSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .avatar-dropdown button {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #4f46e5;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .avatar-dropdown button:hover {
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      color: white;
+    }
+
+    /* Enhanced sidebar styling */
+    #sidebar-toggle {
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      border-radius: 9999px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+      transition: all 0.3s ease;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      z-index: 1600;
+    }
+
+    #sidebar-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+    }
+
+    #sidebar {
+      position: fixed;
+      top: 0.99rem;
+      bottom: 0.75rem;
+      right: 0;
+      width: 70px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.694) 100%);
+      backdrop-filter: blur(20px);
+      box-shadow: -4px 0 20px rgba(79, 70, 229, 0.3);
+      padding: 1rem 0;
+      transform: translateX(70px);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1550;
+      user-select: none;
+        border: 2px solid #160cc6; /* border thickness and color */
+  border-radius: 10px;    
+  padding: 20px;  
+    }
+
+    #sidebar.active {
+      transform: translateX(0);
+    }
+
+    #sidebar-icons {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+
+    #sidebar-icons a, #sidebar-icons button {
+      width: 35px;
+      height: 36px;
+      font-size: 1.8rem;
+      color: #ea1212;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      position: relative;
+      border-radius: 10px;
+    }
+
+    #sidebar-icons a:hover, #sidebar-icons button:hover {
+      color: rgb(210, 28, 28);
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4);
+    }
+
+   main.main-content {
+  max-width: 1200px;
+  margin: 0.25rem auto 2rem auto; /* tiny gap on top */
+  padding: 1rem 2rem;
+   margin-top: 0.5rem;
+
+}
+
+@media (max-width: 767px) {
+  main.main-content {
+    margin-top: 0.5rem; /* same small gap for mobile */
+  }
+}
+    section#home {
+      padding-top: 2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      animation: fadeInUp 1s ease-out 0.9s both;
+    }
+
+    .profile-photo {
+      border-radius: 9999px;
+      width: 128px;
+      height: 128px;
+      object-fit: cover;
+      box-shadow: 0 8px 32px rgba(66, 133, 244, 0.3);
+      transition: all 0.4s ease;
+      border: 4px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .profile-photo:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 40px rgba(66, 133, 244, 0.5);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #typewriter {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+    }
+
+    .social-icon {
+      transition: all 0.3s ease;
+      font-size: 1.4rem;
+      padding: 0.5rem;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .social-icon:hover {
+      transform: translateY(-5px) scale(1.2);
+      box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Specific styling for sidebar avatar dropdown positioning */
+  /* Sidebar logout dropdown - icon only */
+.sidebar-avatar-dropdown {
+  position: absolute;
+  top: 50%;
+  left: -60px; /* adjust horizontal position */
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0);
+  border-radius: 0.35rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  padding: 0.1rem; /* small padding for icon */
+  min-width: 36px;
+  min-height: 36px;
+  display: none;
+  z-index: 2000;
+  border: 1px solid rgba(79,70,229,0.1);
+  text-align: center;
+  animation: dropdownSlide 0.3s ease-out;
+}
+
+.sidebar-avatar-dropdown button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  font-size: 1rem;
+  color: #ef4444; /* red icon */
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.sidebar-avatar-dropdown button i {
+  font-size: 1rem; /* icon size */
+  color: #ef4444; /* red icon */
+}
+
+.sidebar-avatar-dropdown button:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .sidebar-avatar-dropdown {
+    left: -50px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  .sidebar-avatar-dropdown button i {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .sidebar-avatar-dropdown {
+    left: -45px;
+    min-width: 28px;
+    min-height: 28px;
+  }
+  .sidebar-avatar-dropdown button i {
+    font-size: 0.75rem;
+  }
+}
+
+
+    /* Responsive design */
+    @media (min-width: 768px) {
+      #sidebar { display: none !important; }
+      #sidebar-toggle { display: none !important; }
+      nav.desktop-nav { display: flex !important; }
+      #auth-buttons { display: flex !important; }
+    }
+
+    @media (max-width: 767px) {
+      #sidebar-toggle { display: flex; }
+      nav.desktop-nav, #auth-buttons { display: none; }
+      main.main-content { margin-top: 5.5rem; padding: 1rem; }
+      h1 { font-size: 2rem; }
+    }
+    /* Mini sidebar logout button */
+.mini-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;        /* Small space between icon and text */
+  width: auto;         /* Auto width */
+  padding: 0.25rem 0.5rem; /* Tiny padding */
+  font-size: 0.75rem;  /* Smaller font */
+  font-weight: 600;
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.mini-logout-btn i {
+  font-size: 0.85rem; /* smaller icon */
+}
+
+.mini-logout-btn:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .mini-logout-btn {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+  }
+
+  .mini-logout-btn i {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .mini-logout-btn {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.65rem;
+  }
+
+  .mini-logout-btn i {
+    font-size: 0.7rem;
+  }
+}
+
+/* Make only the sidebar login/signup icon backgrounds transparent */
+#sidebar-icons .btn-login,
+#sidebar-icons .btn-signup {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#sidebar-icons .btn-login:hover,
+#sidebar-icons .btn-signup:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: scale(1.1);
+  color: #ea1212; /* keep hover color or adjust as desired */
+}
+  </style>
+</head>
+<body> 
+   
+<!-- Enhanced AI Assistant Button with advanced icons and professional styling -->
+<button class="ai-fab" id="aiFab">
+  <div class="fab-content">
+    <div class="logo-container">
+      <span class="logo">PB</span>
+      <div class="status-indicator"></div>
+    </div>
+    <div class="fab-text">
+      <span class="ai-text">Ask Prashanta</span>
+      <span class="subtitle">AI Assistant</span>
+    </div>
+    <div class="fab-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    </div>
+  </div>
+</button>
+
+<!-- AI Assistant Modal (hidden by default) -->
+<div class="ai-overlay" id="aiOverlay"></div>
+<div class="ai-modal" id="aiModal" role="dialog" aria-label="AI Assistant">
+  <div class="ai-header" id="dragHandle">
+    <div class="ai-title">
+      <div class="header-logo">
+        <span class="logo">PB</span>
+        <div class="pulse-ring"></div>
+      </div>
+      <div class="title-text">
+        <span class="main-title">Prashanta's AI Assistant</span>
+        <span class="subtitle-text">Professional AI Helper</span>
+      </div>
+      <span class="badge online">Online</span>
+    </div>
+    <div class="ai-actions">
+      <button class="ai-icon-btn" id="voiceToggle" title="Toggle Voice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3Z"/>
+          <path d="M19 11a7 7 0 1 1-14 0"/>
+          <path d="M12 18v3"/>
+        </svg>
+      </button>
+      <button class="ai-icon-btn minimize-btn" id="minimizeBtn" title="Minimize">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </button>
+      <button class="ai-icon-btn ai-close" id="aiClose" title="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18"/>
+          <path d="M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="ai-suggestions" id="suggestions"></div>
+  <div class="ai-chat" id="chat">
+    <div class="welcome-message">
+      <div class="welcome-avatar">
+        <span class="logo">PB</span>
+      </div>
+      <div class="welcome-text">
+        <h3>Welcome! I'm Prashanta's AI Assistant</h3>
+        <p>I can help you learn about Prashanta's skills, projects, education, and services. Feel free to ask me anything!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-input">
+    <div class="input-container">
+      <input class="textfield" id="input" placeholder="Ask anything about Prashanta Bhusal…" />
+      <div class="input-actions">
+        <button class="mic" id="micBtn" title="Voice input">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3Z"/>
+            <path d="M19 11a7 7 0 1 1-14 0"/>
+            <path d="M12 18v3"/>
+          </svg>
+          <span class="lang-indicator">🇺🇸</span>
+        </button>
+        <button class="send" id="sendBtn" title="Send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13"/>
+            <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Include the external files -->
+<link rel="stylesheet" href="ai-assistant.css">
+<script src="ai-assistant.js"></script>
+
+  <header>
+    <div class="logo" aria-label="Mr. Bhusal logo">
+      <img src="./logopb.png" alt="Prashanta Bhusal" />
+      <span>Mr. Bhusal</span>
+    </div>
+    <nav class="desktop-nav" role="navigation" aria-label="Primary navigation">
+      <a href="index.html" class="active" aria-current="page">Home</a>
+      <a href="about.html">About</a>
+      <a href="skills.html">Skills</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div id="auth-buttons">
+      <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
+      <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
+    </div>
+    <button id="sidebar-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+  <aside id="sidebar" role="navigation" aria-label="Sidebar navigation" tabindex="-1">
+    <div id="sidebar-icons" role="menu">
+      <a href="index.html" aria-label="Home" data-tooltip="Home" role="menuitem" tabindex="0"><i class="fas fa-home"></i></a>
+      <a href="about.html" aria-label="About" data-tooltip="About" role="menuitem" tabindex="0"><i class="fas fa-user"></i></a>
+      <a href="skills.html" aria-label="Skills" data-tooltip="Skills" role="menuitem" tabindex="0"><i class="fas fa-code"></i></a>
+      <a href="services.html" aria-label="Services" data-tooltip="Services" role="menuitem" tabindex="0"><i class="fas fa-briefcase"></i></a>
+      <a href="contact.html" aria-label="Contact" data-tooltip="Contact" role="menuitem" tabindex="0"><i class="fas fa-envelope"></i></a>
+    <!-- Modern Login & Signup Buttons -->
+<button class="btn-login" type="button" aria-label="Login" data-tooltip="Login" onclick="location.href='login.html'" role="menuitem" tabindex="0">
+  <i class="fas fa-right-to-bracket"></i> <!-- Modern login icon -->
+</button>
+
+<button class="btn-signup" type="button" aria-label="Sign Up" data-tooltip="Sign Up" onclick="location.href='signup.html'" role="menuitem" tabindex="0">
+  <i class="fas fa-user-plus"></i> <!-- Modern signup icon -->
+</button>
+
+    </div>
+  </aside>
+  <main class="main-content">
+    <section id="home">
+      <img src="prashanta.jpeg" alt="Prashanta Bhusal" class="profile-photo mx-auto mb-6" />
+      <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">Hi, I'm Prashanta Bhusal</h1>
+      <p style="font-size: 1.25rem; margin-bottom: 1rem;"> And I am a <span id="typewriter"></span> </p>
+      <p style="font-size: 1rem; color: #444;"> A creative developer offering web design, graphics, and AI-based solutions. I'm also an active member of Hack Club Butwal, building modern and impactful digital experiences. </p>
+      <div class="flex justify-center gap-6 mt-6 text-xl">
+        <a href="https://facebook.com/prashantabhusal065" target="_blank" class="text-blue-600 social-icon" aria-label="Facebook" rel="noopener noreferrer">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://github.com/mrbhusal" target="_blank" class="text-gray-800 social-icon" aria-label="GitHub" rel="noopener noreferrer">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://discord.com/users/mrbhusal" target="_blank" class="text-indigo-600 social-icon" aria-label="Discord" rel="noopener noreferrer">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="mailto:www.prashantabhusal@gmail.com" target="_blank" class="text-red-500 social-icon" aria-label="Email" rel="noopener noreferrer">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+    </section>
+  </main>
+  <script>
+  // Typewriter effect
+  const typewriter = new Typewriter(document.getElementById('typewriter'), {
+    loop: true,
+    delay: 70,
+    deleteSpeed: 40,
+  });
+
+  typewriter
+    .typeString("Graphic Designer")
+    .pauseFor(1200)
+    .deleteAll()
+    .typeString("Web Designer")
+    .pauseFor(1200)
+    .deleteAll()
+    .typeString("Programmer")
+    .pauseFor(1200)
+    .deleteAll()
+    .typeString("Member of Hack Club Butwal")
+    .pauseFor(1200)
+    .deleteAll()
+    .typeString("IT-Enthusiastic")
+    .pauseFor(1200)
+    .deleteAll()
+    .start();
+
+  // Sidebar toggle functionality
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('sidebar');
+
+  sidebarToggle.addEventListener('click', () => {
+    const isActive = sidebar.classList.contains('active');
+    if (isActive) {
+      sidebar.classList.remove('active');
+      sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+      sidebarToggle.setAttribute('aria-expanded', 'false');
+    } else {
+      sidebar.classList.add('active');
+      sidebarToggle.querySelector('i').classList.replace('fa-bars', 'fa-times');
+      sidebarToggle.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // Close sidebar when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+      if (sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+        sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+        sidebarToggle.setAttribute('aria-expanded', 'false');
+      }
+    }
+  });
+
+  // ===== Enhanced authentication system =====
+  document.addEventListener('DOMContentLoaded', () => {
+    const loggedIn = localStorage.getItem('loggedIn');
+    const avatarUrl = localStorage.getItem('avatarUrl');
+    const userName = localStorage.getItem('userName') || 'User';
+    const userEmail = localStorage.getItem('userEmail') || '';
+
+    const authButtonsDiv = document.getElementById('auth-buttons');
+    const sidebarIcons = document.getElementById('sidebar-icons');
+
+    function restoreLoginSignup() {
+      // Desktop buttons
+      authButtonsDiv.innerHTML = `
+        <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
+        <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
+      `;
+
+      // Remove sidebar avatar if exists
+      const avatarBtn = sidebarIcons.querySelector('.sidebar-avatar-btn');
+      if (avatarBtn) avatarBtn.remove();
+
+      // Restore login + signup buttons in sidebar
+      const sidebarLoginBtn = document.createElement("button");
+      sidebarLoginBtn.className = "btn-login";
+      sidebarLoginBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i>`;
+      sidebarLoginBtn.onclick = () => location.href = "login.html";
+
+      const sidebarSignupBtn = document.createElement("button");
+      sidebarSignupBtn.className = "btn-signup";
+      sidebarSignupBtn.innerHTML = `<i class="fas fa-user-plus"></i>`;
+      sidebarSignupBtn.onclick = () => location.href = "signup.html";
+
+      sidebarIcons.appendChild(sidebarLoginBtn);
+      sidebarIcons.appendChild(sidebarSignupBtn);
+    }
+
+   if (loggedIn === 'true' && avatarUrl) {
+  // Replace desktop buttons with avatar
+  authButtonsDiv.innerHTML = `
+    <div class="avatar-container" tabindex="0" aria-label="User  menu">
+      <img src="${avatarUrl}" alt="User  Avatar" class="profile-photo"
+        style="width:40px; height:40px; border-radius:9999px; cursor:pointer; border: 2px solid rgba(79,70,229,0.3);"/>
+      <div class="avatar-dropdown">
+        <div style="padding: 0.75rem 1rem; border-bottom: 1px solid #f3f4f6; color: #374151;">
+          <div style="font-weight: 600; font-size: 0.9rem;">${userName}</div>
+          <div style="font-size: 0.8rem; color: #6b7280;">${userEmail}</div>
+        </div>
+        <button id="edit-profile-btn" ><i class="fas fa-user-edit"></i> Edit Profile</button>
+        <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+  `;
+     
+       const avatarContainer = authButtonsDiv.querySelector('.avatar-container');
+  const dropdown = authButtonsDiv.querySelector('.avatar-dropdown');
+  const logoutBtn = document.getElementById('logout-btn');
+  const editProfileBtn = document.getElementById('edit-profile-btn');
+  avatarContainer.addEventListener('click', () => {
+    const isVisible = dropdown.style.display === 'block';
+    dropdown.style.display = isVisible ? 'none' : 'block';
+  });
+  logoutBtn.addEventListener('click', () => {
+    localStorage.clear();
+    restoreLoginSignup();
+  });
+  if (editProfileBtn) {
+    editProfileBtn.addEventListener('click', () => {
+      // Redirect to edit profile page
+      location.href = 'edit-profile.html';
+    });
+  }
+  // Sidebar avatar code continues...
+
+
+      // Sidebar avatar
+      const existingButtons = sidebarIcons.querySelectorAll('button.btn-login, button.btn-signup');
+      existingButtons.forEach(btn => btn.remove());
+
+      const avatarBtn = document.createElement('button');
+      avatarBtn.classList.add('sidebar-avatar-btn');
+      avatarBtn.style.cssText = "width:44px;height:44px;border:none;background:transparent;cursor:pointer;padding:0;";
+      avatarBtn.innerHTML = `<img src="${avatarUrl}" alt="User Avatar" style="width:36px;height:36px;border-radius:9999px;object-fit:cover;border:2px solid rgba(79,70,229,0.3);" />`;
+
+ // Sidebar logout dropdown (mini button)
+const sidebarDropdown = document.createElement("div");
+sidebarDropdown.className = "sidebar-avatar-dropdown";
+sidebarDropdown.innerHTML = `
+  <button id="sidebar-logout-btn" class="mini-logout-btn">
+    <i class="fas fa-sign-out-alt"></i>
+  </button>
+`;
+sidebarDropdown.style.display = "none";
+avatarBtn.appendChild(sidebarDropdown);
+
+avatarBtn.addEventListener("click", () => {
+  sidebarDropdown.style.display = sidebarDropdown.style.display === "block" ? "none" : "block";
+});
+
+
+      sidebarIcons.appendChild(avatarBtn);
+
+      document.getElementById("sidebar-logout-btn").addEventListener("click", () => {
+        localStorage.clear();
+        restoreLoginSignup();
+      });
+    }
+  });
+
+  // Close sidebar on resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768 && sidebar.classList.contains('active')) {
+      sidebar.classList.remove('active');
+      sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+      sidebarToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+  
+</script>
+
+</body>
+</html>

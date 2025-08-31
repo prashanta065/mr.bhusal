@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hire-Mr.Bhusal</title>
+ <link rel="icon" href="/logopb.png" type="image/png" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  font-family:'Inter',sans-serif;
+  background:#f4f6f8;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:1rem;
+  color:#333;
+}
+
+form {
+  background:#fff;
+  width:100%;
+  max-width:650px;
+  padding:2.5rem 2rem;
+  border-radius:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.08);
+  display:flex;
+  flex-direction:column;
+}
+
+h2 {
+  font-size:2rem;
+  font-weight:600;
+  color:#1e3a8a;
+  text-align:center;
+  margin-bottom:2rem;
+}
+
+.input-group {
+  position:relative;
+  margin-bottom:1.8rem;
+}
+
+.input-group i {
+  position:absolute;
+  top:50%;
+  left:1rem;
+  transform:translateY(-50%);
+  color:#94a3b8;
+}
+
+input, select, textarea {
+  width:100%;
+  padding:1rem 1rem 1rem 2.8rem;
+  border-radius:12px;
+  border:1.5px solid #d1d5db;
+  font-size:1rem;
+  transition:all 0.3s ease;
+  background:#fff;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color:#3b82f6;
+  box-shadow:0 0 10px rgba(59,130,246,0.2);
+  outline:none;
+}
+
+label {
+  position:absolute;
+  top:50%;
+  left:2.8rem;
+  transform:translateY(-50%);
+  color:#94a3b8;
+  font-size:1rem;
+  pointer-events:none;
+  transition:0.25s ease all;
+  background:#fff;
+  padding:0 0.25rem;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label,
+textarea:focus + label,
+textarea:not(:placeholder-shown) + label,
+select:focus + label,
+select:not([value=""]) + label {
+  top:-0.6rem;
+  font-size:0.8rem;
+  color:#3b82f6;
+}
+
+textarea { min-height:140px; padding-top:1.2rem; }
+
+#signature-pad {
+  width:100%;
+  height:160px;
+  border-radius:12px;
+  background:#f1f5f9;
+  border:1.5px solid #d1d5db;
+  margin-bottom:1.5rem;
+}
+
+.file-drop {
+  position:relative;
+  border:2px dashed #d1d5db;
+  border-radius:12px;
+  padding:2rem;
+  text-align:center;
+  background:#f9fafb;
+  margin-bottom:1.5rem;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  min-height:120px;
+  overflow:hidden;
+}
+
+.file-drop.dragover {
+  background:#e0e7ff;
+  border-color:#3b82f6;
+}
+
+.file-drop i {
+  font-size:2rem;
+  color:#3b82f6;
+  margin-bottom:0.5rem;
+  width:100%;
+}
+
+.file-drop p {
+  color:#6b7280;
+  font-size:0.95rem;
+  width:100%;
+}
+
+.file-drop img {
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+  margin:0.25rem;
+}
+
+.button-row {
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+  margin-top:1rem;
+}
+
+button {
+  flex:1;
+  padding:0.95rem 1rem;
+  border-radius:12px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+
+button[type="submit"] {
+  background:#1e3a8a;
+  color:#fff;
+}
+button[type="submit"]:hover { background:#1d4ed8; }
+
+button#clear-signature { background:#ef4444; color:#fff; }
+button#clear-signature:hover { background:#dc2626; }
+
+button#home-button { background:#10b981; color:#fff; }
+button#home-button:hover { background:#059669; }
+
+@media(max-width:640px){
+  .button-row { flex-direction:column; }
+  button { flex:none; width:100%; }
+}
+</style>
+</head>
+<body>
+
+<form id="hireMeForm" novalidate autocomplete="off">
+
+<h2>Hire Me - Project Inquiry</h2>
+
+<div class="input-group">
+  <i class="fa fa-user"></i>
+  <input type="text" name="fullName" placeholder=" " required>
+  <label>Full Name *</label>
+</div>
+
+<div class="input-group">
+  <i class="fa fa-envelope"></i>
+  <input type="email" name="email" placeholder=" " required>
+  <label>Email Address *</label>
+</div>
+
+<div class="input-group">
+  <i class="fa fa-phone"></i>
+  <input type="tel" name="phone" placeholder=" " required pattern="[0-9+ ]{8,15}">
+  <label>Phone Number *</label>
+</div>
+
+<div class="input-group">
+  <i class="fa fa-briefcase"></i>
+  <input type="text" name="projectTitle" placeholder=" " required>
+  <label>Project Title *</label>
+</div>
+
+<div class="input-group">
+  <i class="fa fa-wallet"></i>
+  <select name="budget" required>
+    <option value="" disabled selected></option>
+    <option value="under_1000">Under Rs. 1,000</option>
+    <option value="1000_5000">Rs. 1,000 - Rs. 5,000</option>
+    <option value="5000_10000">Rs. 5,000 - Rs. 10,000</option>
+    <option value="10000_plus">Rs. 10,000+</option>
+  </select>
+  <label>Estimated Budget *</label>
+</div>
+
+<div class="input-group">
+  <i class="fa fa-comment-dots"></i>
+  <select name="contactMethod" required>
+    <option value="" disabled selected></option>
+    <option value="email">Email</option>
+    <option value="phone">Phone</option>
+    <option value="video_call">Video Call</option>
+    <option value="whatsapp">WhatsApp</option>
+  </select>
+  <label>Preferred Contact Method *</label>
+</div>
+
+<div class="input-group">
+  <i class="fa fa-file-lines"></i>
+  <textarea name="projectDetails" placeholder=" " required></textarea>
+  <label>Detailed Project Description *</label>
+</div>
+
+<div class="file-drop" id="file-drop">
+  <i class="fa fa-upload" id="drop-icon"></i>
+  <p id="drop-text">Drag & drop files here or click to upload</p>
+  <input type="file" name="fileUpload" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" multiple style="display:none;">
+</div>
+
+<canvas id="signature-pad" tabindex="0" aria-label="Signature pad"></canvas>
+
+<div class="button-row">
+  <button type="button" id="clear-signature">Clear Signature</button>
+  <button type="button" id="home-button" onclick="window.location='index.html'">Home</button>
+  <button type="submit">Send Request</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+emailjs.init("v-TBqWppfClYlat8A");
+
+// Signature pad setup
+const canvas=document.getElementById('signature-pad');
+const ctx=canvas.getContext('2d');
+let drawing=false,lastX=0,lastY=0;
+
+function resizeCanvas(){const r=window.devicePixelRatio||1;canvas.width=canvas.offsetWidth*r;canvas.height=canvas.offsetHeight*r;ctx.scale(r,r);ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=2.5;ctx.strokeStyle='#1e3a8a';}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+function startDraw(e){drawing=true;const r=canvas.getBoundingClientRect();lastX=(e.touches?e.touches[0].clientX:e.clientX)-r.left;lastY=(e.touches?e.touches[0].clientY:e.clientY)-r.top;}
+function draw(e){if(!drawing)return;const r=canvas.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;const y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;ctx.beginPath();ctx.moveTo(lastX,lastY);ctx.lineTo(x,y);ctx.stroke();lastX=x;lastY=y;e.preventDefault();}
+function stopDraw(){drawing=false;}
+canvas.addEventListener('mousedown',startDraw);canvas.addEventListener('touchstart',startDraw);
+canvas.addEventListener('mousemove',draw);canvas.addEventListener('touchmove',draw);
+canvas.addEventListener('mouseup',stopDraw);canvas.addEventListener('mouseout',stopDraw);canvas.addEventListener('touchend',stopDraw);
+document.getElementById('clear-signature').addEventListener('click',()=>ctx.clearRect(0,0,canvas.width,canvas.height));
+
+// Drag & drop with preview inside the drop area
+const fileDrop=document.getElementById('file-drop');
+const fileInput=fileDrop.querySelector('input');
+const dropIcon=document.getElementById('drop-icon');
+const dropText=document.getElementById('drop-text');
+
+fileDrop.addEventListener('click',()=>fileInput.click());
+fileDrop.addEventListener('dragover',e=>{e.preventDefault();fileDrop.classList.add('dragover');});
+fileDrop.addEventListener('dragleave',e=>{e.preventDefault();fileDrop.classList.remove('dragover');});
+fileDrop.addEventListener('drop',e=>{
+  e.preventDefault(); 
+  fileDrop.classList.remove('dragover'); 
+  fileInput.files=e.dataTransfer.files; 
+  showPreview(e.dataTransfer.files);
+});
+
+fileInput.addEventListener('change',()=>showPreview(fileInput.files));
+
+function showPreview(files){
+  fileDrop.querySelectorAll('img').forEach(img=>img.remove());
+  Array.from(files).forEach(file=>{
+    if(file.type.startsWith('image/')){
+      const img=document.createElement('img');
+      img.src=URL.createObjectURL(file);
+      fileDrop.appendChild(img);
+    }
+  });
+  // hide placeholder icon/text when images exist
+  if(files.length>0){ dropIcon.style.display='none'; dropText.style.display='none'; }
+  else { dropIcon.style.display='block'; dropText.style.display='block'; }
+}
+
+// Form submission
+document.getElementById('hireMeForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  if(!this.checkValidity()){alert("Please fill all required fields."); return;}
+  const blank=document.createElement('canvas'); blank.width=canvas.width; blank.height=canvas.height;
+  if(canvas.toDataURL()===blank.toDataURL()){alert("Please provide your signature."); return;}
+  let sigInput=this.querySelector('input[name="signature"]');
+  if(!sigInput){sigInput=document.createElement('input'); sigInput.type='hidden'; sigInput.name='signature'; this.appendChild(sigInput);}
+  sigInput.value=canvas.toDataURL("image/png");
+  emailjs.sendForm('mrbhusal','template_1pd2h8a',this)
+    .then(()=>{alert("Your request has been sent successfully!"); this.reset(); ctx.clearRect(0,0,canvas.width,canvas.height); showPreview([]);},
+    (err)=>{console.error(err); alert("Oops! Something went wrong.");});
+});
+</script>
+</body>
+</html>

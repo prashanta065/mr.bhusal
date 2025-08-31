@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mr. Bhusal - Services</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link rel="icon" href="logopb.png" type="image/png" />
+  <style>
+    body {
+      background: #fff;
+      color: #1f2937;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    /* --- Header/Navbar styles (copied from index.html for consistency) --- */
+    header {
+      position: static;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px rgba(66, 133, 244, 0.3), 0 0 20px rgba(66, 133, 244, 0.2);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1000px;
+      margin: 1rem auto 0 auto;
+      z-index: 1500;
+      user-select: none;
+      animation: slideDown 0.8s ease-out;
+      overflow: visible;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #111827;
+      animation: fadeInLeft 1s ease-out 0.3s both;
+    }
+    @keyframes fadeInLeft {
+      from { transform: translateX(-30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .logo img {
+      height: 32px;
+      width: 32px;
+      border-radius: 9999px;
+      object-fit: cover;
+      user-select: none;
+      transition: transform 0.3s ease;
+    }
+    .logo img:hover {
+      transform: rotate(360deg) scale(1.1);
+    }
+    nav.desktop-nav {
+      display: flex;
+      gap: 1rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #111827;
+      animation: fadeInUp 1s ease-out 0.5s both;
+      justify-content: center;
+      align-items: center;
+      overflow: visible;
+    }
+    @keyframes fadeInUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    nav.desktop-nav a {
+      position: relative;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      user-select: none;
+      overflow: hidden;
+    }
+    nav.desktop-nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+    nav.desktop-nav a:hover::before,
+    nav.desktop-nav a.active::before {
+      left: 0;
+    }
+    nav.desktop-nav a:hover,
+    nav.desktop-nav a.active {
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    }
+    #auth-buttons {
+      display: flex;
+      gap: 1rem;
+      animation: fadeInRight 1s ease-out 0.7s both;
+    }
+    @keyframes fadeInRight {
+      from { transform: translateX(30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .btn-login, .btn-signup {
+      font-weight: 600;
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-login::before, .btn-signup::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+      transition: all 0.3s ease;
+      transform: translate(-50%, -50%);
+    }
+    .btn-login:hover::before, .btn-signup:hover::before {
+      width: 200px;
+      height: 200px;
+    }
+    .btn-login {
+      background: linear-gradient(135deg, #4f46e5, #3b36d8);
+      color: white;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(79, 70, 229, 0.6);
+    }
+    .btn-signup {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    }
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+    }
+    #sidebar-toggle {
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      border-radius: 9999px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+      transition: all 0.3s ease;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      z-index: 1600;
+    }
+    #sidebar-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+    }
+   /* Avatar container always above cards */
+.avatar-container {
+  position: relative;
+  z-index: 9999;   /* higher than cards */
+}
+
+/* Dropdown */
+.avatar-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  padding: 0.5rem 0;
+  min-width: 180px;
+  display: none;
+  z-index: 999999;  /* very high */
+  animation: dropdownSlide 0.3s ease-out;
+  border: 1px solid rgba(79, 70, 229, 0.1);
+}
+
+    @keyframes dropdownSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .avatar-dropdown button {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #4f46e5;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .avatar-dropdown button:hover {
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      color: white;
+    }
+    /* Enhanced sidebar styling */
+    #sidebar-toggle {
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      border-radius: 9999px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+      transition: all 0.3s ease;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      z-index: 1600;
+    }
+
+    #sidebar-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+    }
+
+    #sidebar {
+      position: fixed;
+      top: 0.99rem;
+      bottom: 0.75rem;
+      right: 0;
+      width: 70px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.785) 100%);
+      backdrop-filter: blur(20px);
+      box-shadow: -4px 0 20px rgba(79, 70, 229, 0.3);
+      padding: 1rem 0;
+      transform: translateX(70px);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1550;
+      user-select: none;
+      border: 2px solid #160cc6; /* border thickness and color */
+  border-radius: 10px;    
+  padding: 20px;  
+    }
+
+    #sidebar.active {
+      transform: translateX(0);
+    }
+
+    #sidebar-icons {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+
+    #sidebar-icons a, #sidebar-icons button {
+      width: 33px;
+      height: 33px;
+      font-size: 1.8rem;
+      color: #e71414;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      position: relative;
+      border-radius: 10px;
+    }
+
+    #sidebar-icons a:hover, #sidebar-icons button:hover {
+      color: white;
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4);
+    }
+    /* Services page styles unchanged below */
+    main {
+      max-width: 900px;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
+    }
+
+    h1 {
+      font-weight: 800;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #2563eb;
+      text-align: center;
+    }
+
+    /* Service cards container */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Service card */
+    .service-card {
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2rem 1.5rem;
+      box-shadow:
+        0 0 15px #3b82f666;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+    }
+
+    .service-card:hover {
+      box-shadow:
+        0 0 30px 5px #3b82f6cc;
+      transform: translateY(-5px);
+    }
+
+    /* Service image */
+    .service-image {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 5px #3b82f6cc);
+      transition: filter 0.3s ease;
+    }
+
+    .service-card:hover .service-image {
+      filter: drop-shadow(0 0 10px #2563ebcc);
+    }
+
+    /* Service title */
+    .service-title {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #2563eb;
+    }
+
+    /* Star rating */
+    .stars {
+      color: #fbbf24; /* amber-400 */
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      user-select: none;
+    }
+
+    /* Service description */
+    .service-desc {
+      font-size: 0.95rem;
+      color: #374151;
+      margin-bottom: 1rem;
+      min-height: 60px;
+    }
+
+    /* Pricing list */
+    .pricing-list {
+      list-style: none;
+      padding-left: 0;
+      color: #4b5563;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .pricing-list li {
+      margin-bottom: 0.3rem;
+    }
+
+    /* Buy/request button */
+    .buy-btn {
+      background: #3b82f6;
+      color: white;
+      font-weight: 600;
+      padding: 0.6rem 1.5rem;
+      border-radius: 9999px;
+      border: none;
+      box-shadow:
+        0 6px 12px #3b82f6cc;
+      cursor: pointer;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+    .buy-btn:hover {
+      background: #2563eb;
+      box-shadow:
+        0 8px 20px #2563ebcc;
+    }
+
+    /* Client reviews section */
+    #reviews-section {
+      margin-top: 4rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #reviews-section h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #2563eb;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .review-card {
+      background: #f9fafb;
+      border-radius: 1rem;
+      padding: 1.5rem 2rem;
+      box-shadow:
+        0 6px 20px #3b82f633;
+      margin-bottom: 1.5rem;
+      user-select: none;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .client-name {
+      font-weight: 700;
+      color: #2563eb;
+      font-size: 1.1rem;
+    }
+
+    .review-stars {
+      color: #fbbf24;
+      font-size: 1rem;
+    }
+
+    .review-text {
+      font-style: italic;
+      color: #374151;
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    /* Review submission form */
+    #review-form-section {
+      background: #fff;
+      max-width: 900px;
+      margin: 3rem auto 6rem;
+      padding: 2rem 2rem;
+      border-radius: 1rem;
+      box-shadow:
+        0 6px 25px #3b82f633;
+    }
+
+    #review-form-section h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #2563eb;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    form label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.5rem;
+      user-select: none;
+    }
+
+    form input[type="text"],
+    form textarea,
+    form select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      border: none;
+      background: #f3f4f6;
+      color: #1f2937;
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+      resize: vertical;
+      box-shadow: inset 0 0 5px #3b82f666;
+      transition: box-shadow 0.3s ease;
+      user-select: text;
+    }
+
+    form input[type="text"]:focus,
+    form textarea:focus,
+    form select:focus {
+      outline: none;
+      box-shadow: 0 0 10px #3b82f6cc;
+      background: #fff;
+    }
+
+    form button {
+      background: #3b82f6;
+      color: white;
+      font-weight: 700;
+      padding: 0.75rem 1.75rem;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+
+    form button:hover {
+      background: #2563eb;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 640px) {
+    
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Show sidebar toggle on small screens, hide on desktop */
+@media (max-width: 900px) {
+  #sidebar-toggle {
+    display: flex;
+  }
+  nav.desktop-nav {
+    display: none;
+  }
+  
+  #auth-buttons {
+    display: none !important;
+  }
+}
+@media (min-width: 901px) {
+  #sidebar-toggle {
+    display: none;
+  }
+  nav.desktop-nav {
+    display: flex;
+  }
+}
+
+/* Sidebar logout dropdown - icon only */
+.sidebar-avatar-dropdown {
+  position: absolute;
+  top: 50%;
+  left: -60px; /* adjust horizontal position */
+  transform: translateY(-50%);
+  background: white;
+  border-radius: 0.35rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  padding: 0.1rem; /* small padding for icon */
+  min-width: 36px;
+  min-height: 36px;
+  display: none;
+  z-index: 2000;
+  border: 1px solid rgba(79,70,229,0.1);
+  text-align: center;
+  animation: dropdownSlide 0.3s ease-out;
+}
+
+.sidebar-avatar-dropdown button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  font-size: 1rem;
+  color: #ef4444; /* red icon */
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.sidebar-avatar-dropdown button i {
+  font-size: 1rem; /* icon size */
+  color: #ef4444; /* red icon */
+}
+
+.sidebar-avatar-dropdown button:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+/* Mini sidebar logout button */
+.mini-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;        /* Small space between icon and text */
+  width: auto;         /* Auto width */
+  padding: 0.25rem 0.5rem; /* Tiny padding */
+  font-size: 0.75rem;  /* Smaller font */
+  font-weight: 600;
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.mini-logout-btn i {
+  font-size: 0.85rem; /* smaller icon */
+}
+
+.mini-logout-btn:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .sidebar-avatar-dropdown {
+    left: -50px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  .sidebar-avatar-dropdown button i {
+    font-size: 0.9rem;
+  }
+  .mini-logout-btn {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .sidebar-avatar-dropdown {
+    left: -40px;
+    min-width: 28px;
+    min-height: 28px;
+  }
+  .sidebar-avatar-dropdown button i {
+    font-size: 0.8rem;
+  }
+  .mini-logout-btn {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.3rem;
+  }
+}
+/* Make only the sidebar login/signup icon backgrounds transparent */
+#sidebar-icons .btn-login,
+#sidebar-icons .btn-signup {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#sidebar-icons .btn-login:hover,
+#sidebar-icons .btn-signup:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: scale(1.1);
+  color: #ea1212; /* keep hover color or adjust as desired */
+}
+
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo" aria-label="Mr. Bhusal logo">
+    <img src="./logopb.png" alt="Prashanta Bhusal" />
+    <span>Mr. Bhusal</span>
+  </div>
+  <nav class="desktop-nav" role="navigation" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="skills.html">Skills</a>
+    <a href="services.html" class="active" aria-current="page">Services</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <div id="auth-buttons">
+    <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
+    <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
+  </div>
+  <button id="sidebar-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="sidebar">
+    <i class="fas fa-bars"></i>
+  </button>
+</header>
+<aside id="sidebar" role="navigation" aria-label="Sidebar navigation" tabindex="-1">
+  <div id="sidebar-icons" role="menu">
+    <a href="index.html" aria-label="Home" data-tooltip="Home" role="menuitem" tabindex="0"><i class="fas fa-home"></i></a>
+    <a href="about.html" aria-label="About" data-tooltip="About" role="menuitem" tabindex="0"><i class="fas fa-user"></i></a>
+    <a href="skills.html" aria-label="Skills" data-tooltip="Skills" role="menuitem" tabindex="0"><i class="fas fa-code"></i></a>
+    <a href="services.html" aria-label="Services" data-tooltip="Services" role="menuitem" tabindex="0"><i class="fas fa-briefcase"></i></a>
+    <a href="contact.html" aria-label="Contact" data-tooltip="Contact" role="menuitem" tabindex="0"><i class="fas fa-envelope"></i></a>
+    <button class="btn-login" type="button" aria-label="Login" data-tooltip="Login" onclick="location.href='login.html'" role="menuitem" tabindex="0"><i class="fas fa-sign-in-alt"></i></button>
+    <button class="btn-signup" type="button" aria-label="Sign Up" data-tooltip="Sign Up" onclick="location.href='signup.html'" role="menuitem" tabindex="0"><i class="fas fa-user-plus"></i></button>
+  </div>
+</aside>
+<main>
+  <!-- ...your main content unchanged... -->
+  <!-- (Keep all your service cards, reviews, and review form as before) -->
+  <!-- ...existing code... -->
+  <h1 style="margin-top:3rem;">My Professional Services</h1>
+
+  <section class="services-grid" id="services-container">
+
+    <!-- Logo Design -->
+    <article class="service-card" tabindex="0" aria-label="Logo Design Service">
+      <img class="service-image" src="logo1.png" alt="Logo Design" />
+      <h3 class="service-title">Logo Design</h3>
+      <div class="stars" aria-label="4.5 star rating">★★★★☆</div>
+      <p class="service-desc">Custom logos, brand marks, icons, and identity packages tailored to your brand's personality.</p>
+      <ul class="pricing-list" aria-label="Logo design pricing">
+        <li>Basic logo (1 concept) — Rs. 200</li>
+        <li>Premium (3 concepts + revisions) — Rs. 400</li>
+        <li>Full brand kit — Rs. 500</li>
+      </ul>
+     <button class="buy-btn" type="button" onclick="window.location.href='form.html'">Buy / Request</button>
+
+    </article>
+
+    <!-- Graphic Design -->
+    <article class="service-card" tabindex="0" aria-label="Graphic Design Service">
+      <img class="service-image" src="https://img.icons8.com/color/96/000000/paint-palette.png" alt="Graphic Design" />
+      <h3 class="service-title">Graphic Design</h3>
+      <div class="stars" aria-label="4 star rating">★★★★☆</div>
+      <p class="service-desc">Creative design solutions for flyers, posters, brochures, social media, and branding.</p>
+      <ul class="pricing-list" aria-label="Graphic design pricing">
+        <li>Flyer design — Rs. 150</li>
+        <li>Visiting card design — Rs. 100</li>
+        <li>Social media banners — Rs. 130</li>
+      </ul>
+     <button class="buy-btn" type="button" onclick="window.location.href='form.html'">Buy / Request</button>
+
+    </article>
+
+    <article class="service-card" tabindex="0" aria-label="Presentation Design Service">
+      <img class="service-image" src="https://img.icons8.com/color/96/000000/presentation.png" alt="Presentation Design" />
+      <h3 class="service-title">Presentation Design</h3>
+      <div class="stars" aria-label="4.7 star rating">★★★★☆</div>
+      <p class="service-desc">Professional slide decks for education and business, crafted for maximum impact.</p>
+      <ul class="pricing-list" aria-label="Presentation design pricing">
+        <li>Basic presentation (up to 10 slides) — Rs. 100</li>
+        <li>Premium (up to 25 slides + revisions) — Rs. 600</li>
+        <li>Custom animations & graphics — Rs. 500</li>
+      </ul>
+<button class="buy-btn" type="button" onclick="window.location.href='form.html'">Buy / Request</button>
+
+    </article>
+
+    
+    <article class="service-card" tabindex="0" aria-label="Web Development Service">
+      <img class="service-image" src="https://img.icons8.com/color/96/000000/source-code.png" alt="Web Development" />
+      <h3 class="service-title">Web Development</h3>
+      <div class="stars" aria-label="5 star rating">★★★★★</div>
+      <p class="service-desc">Modern, responsive websites built with HTML, CSS, JS, and frameworks like Tailwind CSS.</p>
+      <ul class="pricing-list" aria-label="Web development pricing">
+        <li>Basic website (up to 5 pages) — Rs. 3000</li>
+        <li>E-commerce website — Rs. 8000</li>
+        <li>Custom web apps — Contact for quote</li>
+      </ul>
+      <button class="buy-btn" type="button" onclick="window.location.href='form.html'">Buy / Request</button>
+
+    </article>
+
+     <article class="service-card" tabindex="0" aria-label="Social Media Management Service">
+    <img class="service-image" src="https://img.icons8.com/color/96/000000/share-2.png" alt="Social Media Management" />
+    <h3 class="service-title">Social Media Management</h3>
+    <div class="stars" aria-label="4.9 star rating">★★★★★</div>
+    <p class="service-desc">Manage, grow, and engage your audience across Instagram, Facebook, and more with custom strategies.</p>
+    <ul class="pricing-list">
+      <li>Basic package (10 posts) — Rs. 2000</li>
+      <li>Growth package (30 posts + analytics) — Rs. 5000</li>
+      <li>Full campaign management — Rs. 9000</li>
+    </ul>
+<button class="buy-btn" type="button" onclick="window.location.href='form.html'">Buy / Request</button>
+
+  </article>
+  </section>
+
+  <!-- Client Reviews -->
+  <section id="reviews-section" aria-label="Client reviews">
+    <h2>Client Reviews</h2>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Royal RTM Team</div>
+        <div class="review-stars" aria-label="5 star rating">★★★★★</div>
+      </div>
+      <p class="review-text">"Outstanding service! The branding work transformed our image. Highly professional and timely delivery."</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Hansapur Public English Boarding School</div>
+        <div class="review-stars" aria-label="4 star rating">★★★★☆</div>
+      </div>
+      <p class="review-text">"Great banner design that perfectly captures our school's spirit. Friendly and responsive designer."</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Deepjyoti Sathi Sanjal</div>
+        <div class="review-stars" aria-label="5 star rating">★★★★★</div>
+      </div>
+      <p class="review-text">"Excellent social media management services. Our engagement and follower count have skyrocketed!"</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Saree Soul</div>
+        <div class="review-stars" aria-label="5 star rating">★★★★★</div>
+      </div>
+      <p class="review-text">"Creative graphics and banners for our online store. Fast turnaround and beautiful designs!"</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Lumbini Labs Solutions</div>
+        <div class="review-stars" aria-label="4 star rating">★★★★☆</div>
+      </div>
+      <p class="review-text">"Professional website development and prompt support. Highly recommended for startups."</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Elegant Events</div>
+        <div class="review-stars" aria-label="5 star rating">★★★★★</div>
+      </div>
+      <p class="review-text">"Presentation design was professional and tailored exactly as needed."</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Malarani Mobile Centre</div>
+        <div class="review-stars" aria-label="5 star rating">★★★★★</div>
+      </div>
+      <p class="review-text">"Amazing logo design! The team understood our vision perfectly."</p>
+    </article>
+
+    <!-- Added 7 more reviews for total 10 -->
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Royal Rtm Club.</div>
+        <div class="review-stars" aria-label="4 star rating">★★★★☆</div>
+      </div>
+      <p class="review-text">"Web development was smooth and the end product exceeded expectations."</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Hansapur public english boarding school</div>
+        <div class="review-stars" aria-label="5 star rating">★★★★★</div>
+      </div>
+      <p class="review-text">"Loved the social media strategy implemented. Our community engagement is up!"</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">Lumbini Labs</div>
+        <div class="review-stars" aria-label="5 star rating">★★★★★</div>
+      </div>
+      <p class="review-text">"Graphic design work was fresh and eye-catching. Highly recommend."</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name"> LUMBINI CAFE CENTRE</div>
+        <div class="review-stars" aria-label="5 star rating">★★★★★</div>
+      </div>
+      <p class="review-text">"Amazing branding and logo work that fits perfectly with our cafe vibe."</p>
+    </article>
+
+    <article class="review-card" tabindex="0">
+      <div class="review-header">
+        <div class="client-name">RTM Fitness Club</div>
+        <div class="review-stars" aria-label="4 star rating">★★★★☆</div>
+      </div>
+      <p class="review-text">"Great website and social media presence created for our gym."</p>
+    </article>
+  </section>
+
+  <!-- Review Form -->
+  <section id="review-form-section" aria-label="Submit a review">
+    <h2>Submit Your Review</h2>
+    <form id="review-form" onsubmit="handleReviewSubmit(event)">
+      <label for="client-name">Your Name</label>
+      <input type="text" id="client-name" name="client-name" placeholder="Enter your full name" required />
+
+      <label for="service-rating">Service Rating</label>
+      <select id="service-rating" name="service-rating" required>
+        <option value="">Select rating</option>
+        <option value="5">★★★★★ (5 - Excellent)</option>
+        <option value="4">★★★★☆ (4 - Good)</option>
+        <option value="3">★★★☆☆ (3 - Average)</option>
+        <option value="2">★★☆☆☆ (2 - Poor)</option>
+        <option value="1">★☆☆☆☆ (1 - Very Poor)</option>
+      </select>
+
+      <label for="review-text">Your Review</label>
+      <textarea id="review-text" name="review-text" rows="4" placeholder="Write your feedback here..." required></textarea>
+
+      <button type="submit">Submit Review</button>
+    </form>
+  </section>
+</main>
+<script>
+  // Sidebar toggle functionality
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('sidebar');
+
+  sidebarToggle.addEventListener('click', () => {
+    const isActive = sidebar.classList.contains('active');
+    if (isActive) {
+      sidebar.classList.remove('active');
+      sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+      sidebarToggle.setAttribute('aria-expanded', 'false');
+    } else {
+      sidebar.classList.add('active');
+      sidebarToggle.querySelector('i').classList.replace('fa-bars', 'fa-times');
+      sidebarToggle.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+      if (sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+        sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+        sidebarToggle.setAttribute('aria-expanded', 'false');
+      }
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768 && sidebar.classList.contains('active')) {
+      sidebar.classList.remove('active');
+      sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+      sidebarToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // ===== Enhanced authentication system =====
+  document.addEventListener('DOMContentLoaded', () => {
+    const loggedIn = localStorage.getItem('loggedIn');
+    const avatarUrl = localStorage.getItem('avatarUrl');
+    const userName = localStorage.getItem('userName') || 'User';
+    const userEmail = localStorage.getItem('userEmail') || '';
+
+    const authButtonsDiv = document.getElementById('auth-buttons');
+    const sidebarIcons = document.getElementById('sidebar-icons');
+
+    function restoreLoginSignup() {
+      authButtonsDiv.innerHTML = `
+        <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
+        <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
+      `;
+      const avatarBtn = sidebarIcons.querySelector('.sidebar-avatar-btn');
+      if (avatarBtn) avatarBtn.remove();
+
+      const sidebarLoginBtn = document.createElement("button");
+      sidebarLoginBtn.className = "btn-login";
+      sidebarLoginBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i>`;
+      sidebarLoginBtn.onclick = () => location.href = "login.html";
+
+      const sidebarSignupBtn = document.createElement("button");
+      sidebarSignupBtn.className = "btn-signup";
+      sidebarSignupBtn.innerHTML = `<i class="fas fa-user-plus"></i>`;
+      sidebarSignupBtn.onclick = () => location.href = "signup.html";
+
+      sidebarIcons.appendChild(sidebarLoginBtn);
+      sidebarIcons.appendChild(sidebarSignupBtn);
+    }
+
+    if (loggedIn === 'true' && avatarUrl) {
+      authButtonsDiv.innerHTML = `
+    <div class="avatar-container" tabindex="0" aria-label="User  menu">
+      <img src="${avatarUrl}" alt="User  Avatar" class="profile-photo"
+        style="width:40px; height:40px; border-radius:9999px; cursor:pointer; border: 2px solid rgba(79,70,229,0.3);"/>
+      <div class="avatar-dropdown">
+        <div style="padding: 0.75rem 1rem; border-bottom: 1px solid #f3f4f6; color: #374151;">
+          <div style="font-weight: 600; font-size: 0.9rem;">${userName}</div>
+          <div style="font-size: 0.8rem; color: #6b7280;">${userEmail}</div>
+        </div>
+        <button id="edit-profile-btn" ><i class="fas fa-user-edit"></i> Edit Profile</button>
+        <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+  `;
+      const avatarContainer = authButtonsDiv.querySelector('.avatar-container');
+      const dropdown = authButtonsDiv.querySelector('.avatar-dropdown');
+      const logoutBtn = document.getElementById('logout-btn');
+      const editProfileBtn = document.getElementById('edit-profile-btn');
+      avatarContainer.addEventListener('click', () => {
+        const isVisible = dropdown.style.display === 'block';
+        dropdown.style.display = isVisible ? 'none' : 'block';
+      });
+      logoutBtn.addEventListener('click', () => {
+        localStorage.clear();
+        restoreLoginSignup();
+      });
+      if (editProfileBtn) {
+        editProfileBtn.addEventListener('click', () => {
+          location.href = 'edit-profile.html';
+        });
+      }
+      // Remove login/signup from sidebar
+      const existingButtons = sidebarIcons.querySelectorAll('button.btn-login, button.btn-signup');
+      existingButtons.forEach(btn => btn.remove());
+
+      // Sidebar avatar button
+      const avatarBtn = document.createElement('button');
+      avatarBtn.classList.add('sidebar-avatar-btn');
+      avatarBtn.style.cssText = "width:44px;height:44px;border:none;background:transparent;cursor:pointer;padding:0;position:relative;";
+      avatarBtn.innerHTML = `<img src="${avatarUrl}" alt="User Avatar" style="width:36px;height:36px;border-radius:9999px;object-fit:cover;border:2px solid rgba(79,70,229,0.3);" />`;
+
+      // Sidebar logout dropdown (mini button)
+      const sidebarDropdown = document.createElement("div");
+      sidebarDropdown.className = "sidebar-avatar-dropdown";
+      sidebarDropdown.innerHTML = `
+    <button id="sidebar-logout-btn" class="mini-logout-btn">
+      <i class="fas fa-sign-out-alt"></i>
+    </button>
+  `;
+      sidebarDropdown.style.display = "none";
+      avatarBtn.appendChild(sidebarDropdown);
+
+      avatarBtn.addEventListener("click", () => {
+        sidebarDropdown.style.display = sidebarDropdown.style.display === "block" ? "none" : "block";
+      });
+
+      // Hide dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!avatarBtn.contains(e.target)) {
+          sidebarDropdown.style.display = "none";
+        }
+      });
+
+      sidebarIcons.appendChild(avatarBtn);
+
+      sidebarDropdown.querySelector("#sidebar-logout-btn").addEventListener("click", () => {
+        localStorage.clear();
+        restoreLoginSignup();
+        sidebarDropdown.style.display = "none";
+      });
+    }
+  });
+
+  // ---------- Review submission ----------
+  // Load reviews on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    loadAllReviews();
+  });
+
+  function handleReviewSubmit(event) {
+    event.preventDefault();
+    const name = document.getElementById('client-name').value.trim();
+    const rating = document.getElementById('service-rating').value;
+    const reviewText = document.getElementById('review-text').value.trim();
+    const userEmail = localStorage.getItem('userEmail') || name;
+    if (!name || !rating || !reviewText) {
+      alert('Please fill out all fields.');
+      return;
+    }
+    const starsMap = {
+      '5': '★★★★★',
+      '4': '★★★★☆',
+      '3': '★★★☆☆',
+      '2': '★★☆☆☆',
+      '1': '★☆☆☆☆'
+    };
+    const stars = starsMap[rating];
+    const reviewId = 'review_' + Date.now();
+    const review = {
+      id: reviewId,
+      name: name,
+      rating: rating,
+      stars: stars,
+      text: reviewText,
+      date: new Date().toLocaleString(),
+      userEmail: userEmail
+    };
+    let storedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
+    storedReviews.push(review);
+    localStorage.setItem('reviews', JSON.stringify(storedReviews));
+    addReviewToDOM(review);
+    document.getElementById('review-form').reset();
+    document.getElementById('reviews-section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function loadAllReviews() {
+    const reviewSection = document.getElementById('reviews-section');
+    // Remove all reviews except the heading
+    Array.from(reviewSection.querySelectorAll('.review-card')).forEach(card => card.remove());
+    let storedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
+    storedReviews.forEach(review => {
+      addReviewToDOM(review);
+    });
+  }
+
+  function addReviewToDOM(review) {
+    const reviewSection = document.getElementById('reviews-section');
+    const article = document.createElement('article');
+    article.className = 'review-card';
+    article.tabIndex = 0;
+    article.dataset.reviewId = review.id;
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'review-header';
+    const clientNameDiv = document.createElement('div');
+    clientNameDiv.className = 'client-name';
+    clientNameDiv.textContent = review.name;
+    const reviewStarsDiv = document.createElement('div');
+    reviewStarsDiv.className = 'review-stars';
+    reviewStarsDiv.setAttribute('aria-label', `${review.rating} star rating`);
+    reviewStarsDiv.textContent = review.stars;
+    headerDiv.appendChild(clientNameDiv);
+    headerDiv.appendChild(reviewStarsDiv);
+    const dateDiv = document.createElement('div');
+    dateDiv.style.fontSize = '0.8rem';
+    dateDiv.style.color = '#6b7280';
+    dateDiv.style.marginTop = '0.25rem';
+    dateDiv.textContent = review.date;
+    const reviewTextP = document.createElement('p');
+    reviewTextP.className = 'review-text';
+    reviewTextP.textContent = `"${review.text}"`;
+    article.appendChild(headerDiv);
+    article.appendChild(dateDiv);
+    article.appendChild(reviewTextP);
+    const loggedInEmail = localStorage.getItem('userEmail');
+    if (loggedInEmail && loggedInEmail === review.userEmail) {
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.style.marginTop = '0.5rem';
+      deleteBtn.style.padding = '0.25rem 0.5rem';
+      deleteBtn.style.background = '#ef4444';
+      deleteBtn.style.color = 'white';
+      deleteBtn.style.border = 'none';
+      deleteBtn.style.borderRadius = '0.25rem';
+      deleteBtn.style.cursor = 'pointer';
+      deleteBtn.addEventListener('click', () => {
+        deleteReview(review.id);
+      });
+      article.appendChild(deleteBtn);
+    }
+    // Insert after heading
+    const heading = reviewSection.querySelector('h2');
+    if (heading && heading.nextSibling) {
+      reviewSection.insertBefore(article, heading.nextSibling);
+    } else {
+      reviewSection.appendChild(article);
+    }
+  }
+
+  function deleteReview(reviewId) {
+    let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+    // Only allow delete if current user matches
+    const loggedInEmail = localStorage.getItem('userEmail');
+    const review = reviews.find(r => r.id === reviewId);
+    if (!review || loggedInEmail !== review.userEmail) return;
+    reviews = reviews.filter(r => r.id !== reviewId);
+    localStorage.setItem('reviews', JSON.stringify(reviews));
+    loadAllReviews();
+  }
+</script>
+</body>
+</html>

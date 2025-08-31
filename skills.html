@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MR.BHUSAL-Skills</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/typewriter-effect@2.18.0/dist/core.js"></script>
+  <link rel="icon" href="logopb.png" type="image/png" />
+  <style>
+    /* ====== RESET ====== */
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,sans-serif;}
+    body{background:#fff;color:#111;line-height:1.6;}
+
+     header {
+      position: static;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px rgba(66, 133, 244, 0.3), 0 0 20px rgba(66, 133, 244, 0.2);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1000px;
+      margin: 1rem auto 0 auto;
+      z-index: 1500;
+      user-select: none;
+      animation: slideDown 0.8s ease-out;
+      
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #111827;
+      animation: fadeInLeft 1s ease-out 0.3s both;
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        transform: translateX(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .logo img {
+      height: 32px;
+      width: 32px;
+      border-radius: 9999px;
+      object-fit: cover;
+      user-select: none;
+      transition: transform 0.3s ease;
+    }
+
+    .logo img:hover {
+      transform: rotate(360deg) scale(1.1);
+    }
+
+    nav.desktop-nav {
+      display: flex;
+      gap: 1rem; /* Reduced gap from 2rem to 1rem for better spacing */
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #111827;
+      animation: fadeInUp 1s ease-out 0.5s both;
+      justify-content: center; /* Added center alignment for navbar links */
+      align-items: center; /* Added vertical center alignment */
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    nav.desktop-nav a {
+      position: relative;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    nav.desktop-nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+
+    nav.desktop-nav a:hover::before,
+    nav.desktop-nav a.active::before {
+      left: 0;
+    }
+
+    nav.desktop-nav a:hover,
+    nav.desktop-nav a.active {
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    }
+
+    #auth-buttons {
+      display: flex;
+      gap: 1rem;
+      animation: fadeInRight 1s ease-out 0.7s both;
+    }
+
+    @keyframes fadeInRight {
+      from {
+        transform: translateX(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .btn-login, .btn-signup {
+      font-weight: 600;
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-login::before, .btn-signup::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+      transition: all 0.3s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .btn-login:hover::before, .btn-signup:hover::before {
+      width: 200px;
+      height: 200px;
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, #4f46e5, #3b36d8);
+      color: white;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(79, 70, 229, 0.6);
+    }
+
+    .btn-signup {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+    }
+
+    /* Enhanced avatar dropdown styling */
+    .avatar-container {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .avatar-dropdown {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      padding: 0.5rem 0;
+      min-width: 150px;
+      display: none;
+      z-index: 1000;
+      animation: dropdownSlide 0.3s ease-out;
+      border: 1px solid rgba(79, 70, 229, 0.1);
+    }
+
+    @keyframes dropdownSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .avatar-dropdown button {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #4f46e5;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .avatar-dropdown button:hover {
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      color: white;
+    }
+
+    /* Enhanced sidebar styling */
+    #sidebar-toggle {
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      border-radius: 9999px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+      transition: all 0.3s ease;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      z-index: 1600;
+    }
+
+    #sidebar-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+    }
+
+    #sidebar {
+      position: fixed;
+      top: 0.99rem;
+      bottom: 0.75rem;
+      right: 0;
+      width: 70px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.735) 100%);
+      backdrop-filter: blur(20px);
+      box-shadow: -4px 0 20px rgba(79, 70, 229, 0.3);
+      padding: 1rem 0;
+      transform: translateX(70px);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1550;
+      user-select: none;
+        border: 2px solid #160cc6; /* border thickness and color */
+  border-radius: 10px;    
+  padding: 20px;  
+    }
+    /* Make only the sidebar login/signup icon backgrounds transparent */
+#sidebar-icons .btn-login,
+#sidebar-icons .btn-signup {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#sidebar-icons .btn-login:hover,
+#sidebar-icons .btn-signup:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: scale(1.1);
+  color: #ea1212; /* keep hover color or adjust as desired */
+}
+
+
+    #sidebar.active {
+      transform: translateX(0);
+    }
+
+    #sidebar-icons {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+
+    #sidebar-icons a, #sidebar-icons button {
+      width: 33px;
+      height: 33px;
+      font-size: 1.8rem;
+      color: #ea1111;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      position: relative;
+      border-radius: 10px;
+    }
+
+    #sidebar-icons a:hover, #sidebar-icons button:hover {
+      color: white;
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4);
+    }
+
+    /* ====== SECTION BASE ====== */
+    section{padding:6rem 2rem 4rem;max-width:1200px;margin:auto;}
+    section h2{text-align:center;font-size:2rem;margin-bottom:2rem;color:#4f46e5;font-weight:800;}
+
+    /* ====== FILTER BAR ====== */
+    .skills-filter {
+      display:flex;flex-wrap:wrap;gap:.6rem;
+      justify-content:center;margin:1rem auto 2.2rem;max-width:900px;
+    }
+    .filter-btn{
+      border:2px solid #6366f1;color:#4f46e5;background:#fff;
+      padding:.45rem .9rem;border-radius:9999px;
+      font-weight:700;font-size:.95rem;cursor:pointer;
+      transition:.25s;box-shadow:0 2px 8px rgba(99,102,241,.15);
+    }
+    .filter-btn:hover{transform:translateY(-2px);}
+    .filter-btn.active{
+      background:linear-gradient(135deg,#4f46e5,#3b82f6);
+      color:#fff;box-shadow:0 8px 20px rgba(79,70,229,.35);
+    }
+
+    /* ====== GRID ====== */
+    .skills-grid{display:grid;grid-template-columns:1fr;gap:1.25rem;}
+    @media(min-width:640px){.skills-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(min-width:1024px){.skills-grid{grid-template-columns:repeat(3,1fr);}}
+
+    /* ====== SKILL CARD ====== */
+    .skill-card{
+      background:#fff;border-radius:1rem;padding:1.5rem;
+      box-shadow:0 4px 15px rgba(0,0,0,.08);
+      display:flex;flex-direction:column;align-items:center;
+      text-align:center;
+      transition:.35s ease;
+      opacity:0;transform:translateY(18px);
+    }
+    .skill-card:hover{transform:translateY(-10px);box-shadow:0 18px 40px rgba(79,70,229,.2);}
+    .skill-card img{width:80px;height:80px;margin-bottom:1rem;}
+    .skill-card h3{font-size:1.2rem;font-weight:700;margin-bottom:.5rem;color:#111;}
+    .skill-card p{font-size:.9rem;margin-bottom:1rem;color:#444;}
+    .subskills-list{list-style:disc;text-align:left;margin:0 auto 1rem;padding-left:1.2rem;font-size:.9rem;color:#333;}
+    .subskills-list li{margin-bottom:.35rem;}
+
+    /* Reveal animation */
+    .reveal.in{opacity:1;transform:translateY(0);transition:opacity .6s ease, transform .6s ease;}
+
+   /* ====== Progress bar ====== */
+.skill-range {
+    margin: 0; /* remove top margin */
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4338ca;
+    width: 100%;
+}
+
+.skill-range span {
+    min-width: 40px;
+}
+
+.skill-range .progress {
+    flex: 1;
+    height: 10px;
+    background: #e0e7ff;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.skill-range .progress div {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #6366f1, #3b82f6);
+    border-radius: inherit;
+    transition: width 1.2s cubic-bezier(.2,.6,.2,1);
+}
+
+/* ====== Container fixed at bottom ====== */
+.skill-range-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-height: 150px; /* adjust so all bars fit */
+    overflow-y: auto;   /* scroll if too many bars */
+    background: #f8f9ff;
+    padding: 0.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 999;
+}
+  /* Specific styling for sidebar avatar dropdown positioning */
+  /* Sidebar logout dropdown - icon only */
+.sidebar-avatar-dropdown {
+  position: absolute;
+  top: 50%;
+  left: -60px; /* adjust horizontal position */
+  transform: translateY(-50%);
+  background: white;
+  border-radius: 0.35rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  padding: 0.1rem; /* small padding for icon */
+  min-width: 36px;
+  min-height: 36px;
+  display: none;
+  z-index: 2000;
+  border: 1px solid rgba(79,70,229,0.1);
+  text-align: center;
+  animation: dropdownSlide 0.3s ease-out;
+}
+
+.sidebar-avatar-dropdown button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  font-size: 1rem;
+  color: #ef4444; /* red icon */
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.sidebar-avatar-dropdown button i {
+  font-size: 1rem; /* icon size */
+  color: #ef4444; /* red icon */
+}
+
+.sidebar-avatar-dropdown button:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .sidebar-avatar-dropdown {
+    left: -50px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  .sidebar-avatar-dropdown button i {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .sidebar-avatar-dropdown {
+    left: -45px;
+    min-width: 28px;
+    min-height: 28px;
+  }
+  .sidebar-avatar-dropdown button i {
+    font-size: 0.75rem;
+  }
+}
+
+
+    /* Responsive design */
+    @media (min-width: 768px) {
+      #sidebar { display: none !important; }
+      #sidebar-toggle { display: none !important; }
+      nav.desktop-nav { display: flex !important; }
+      #auth-buttons { display: flex !important; }
+    }
+
+    @media (max-width: 767px) {
+      #sidebar-toggle { display: flex; }
+      nav.desktop-nav, #auth-buttons { display: none; }
+      main.main-content { margin-top: 5.5rem; padding: 1rem; }
+      h1 { font-size: 2rem; }
+    }
+    /* Mini sidebar logout button */
+.mini-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;        /* Small space between icon and text */
+  width: auto;         /* Auto width */
+  padding: 0.25rem 0.5rem; /* Tiny padding */
+  font-size: 0.75rem;  /* Smaller font */
+  font-weight: 600;
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.mini-logout-btn i {
+  font-size: 0.85rem; /* smaller icon */
+}
+
+.mini-logout-btn:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .mini-logout-btn {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+  }
+
+  .mini-logout-btn i {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .mini-logout-btn {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.65rem;
+  }
+
+  .mini-logout-btn i {
+    font-size: 0.7rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+    <header>
+    <div class="logo" aria-label="Mr. Bhusal logo">
+      <img src="./logopb.png" alt="Prashanta Bhusal" />
+      <span>Mr. Bhusal</span>
+    </div>
+    <nav class="desktop-nav" role="navigation" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="skills.html"class="active" aria-current="page">Skills</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div id="auth-buttons">
+      <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
+      <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
+    </div>
+    <button id="sidebar-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+  <aside id="sidebar" role="navigation" aria-label="Sidebar navigation" tabindex="-1">
+    <div id="sidebar-icons" role="menu">
+      <a href="index.html" aria-label="Home" data-tooltip="Home" role="menuitem" tabindex="0"><i class="fas fa-home"></i></a>
+      <a href="about.html" aria-label="About" data-tooltip="About" role="menuitem" tabindex="0"><i class="fas fa-user"></i></a>
+      <a href="skills.html" aria-label="Skills" data-tooltip="Skills" role="menuitem" tabindex="0"><i class="fas fa-code"></i></a>
+      <a href="services.html" aria-label="Services" data-tooltip="Services" role="menuitem" tabindex="0"><i class="fas fa-briefcase"></i></a>
+      <a href="contact.html" aria-label="Contact" data-tooltip="Contact" role="menuitem" tabindex="0"><i class="fas fa-envelope"></i></a>
+      <button class="btn-login" type="button" aria-label="Login" data-tooltip="Login" onclick="location.href='login.html'" role="menuitem" tabindex="0"><i class="fas fa-sign-in-alt"></i></button>
+      <button class="btn-signup" type="button" aria-label="Sign Up" data-tooltip="Sign Up" onclick="location.href='signup.html'" role="menuitem" tabindex="0"><i class="fas fa-user-plus"></i></button>
+    </div>
+  </aside>
+
+   
+  </section>
+  <!-- ===== SKILLS SECTION ===== -->
+  <section id="skills">
+    <h2>💡 My Skills</h2>
+
+    <!-- Filter Buttons -->
+    <div class="skills-filter">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="design">Design</button>
+      <button class="filter-btn" data-filter="web">Web</button>
+      <button class="filter-btn" data-filter="presentation">Presentations</button>
+      <button class="filter-btn" data-filter="ai">AI</button>
+      <button class="filter-btn" data-filter="programming">Programming</button>
+      <button class="filter-btn" data-filter="soft">Soft Skills</button>
+      <button class="filter-btn" data-filter="creativity">Creativity</button>
+    </div>
+
+    <!-- Skills Grid -->
+    <div class="skills-grid">
+      <!-- Graphic Designing -->
+      <article class="skill-card reveal" data-category="design">
+        <img src="graphic design.png" alt="Graphic Designing">
+        <h3>Graphic Designing</h3>
+        <p>I create visually stunning designs that communicate clearly.</p>
+        <ul class="subskills-list">
+          <li>Canva</li><li>Photoshop</li><li>Figma</li><li>Adobe Illustrator</li>
+          <li>Branding & Logo Design</li><li>Color Theory</li>
+        </ul>
+        <div class="skill-range"><span>90%</span><div class="progress"><div data-progress="90"></div></div></div>
+      </article>
+
+      <!-- Web Development -->
+      <article class="skill-card reveal" data-category="web">
+        <img src="https://img.icons8.com/fluency/96/000000/source-code.png" alt="Web Development">
+        <h3>Web Development</h3>
+        <p>I build modern, responsive websites with clean code.</p>
+        <ul class="subskills-list">
+          <li>HTML5 & CSS3</li><li>JavaScript (ES6+)</li><li>Git & GitHub</li><li>Responsive Design</li>
+        </ul>
+        <div class="skill-range"><span>85%</span><div class="progress"><div data-progress="85"></div></div></div>
+      </article>
+
+      <!-- Presentation Making -->
+      <article class="skill-card reveal" data-category="presentation">
+        <img src="https://img.icons8.com/fluency/96/000000/presentation.png" alt="Presentation">
+        <h3>Presentation Making</h3>
+        <p>I design professional, engaging presentations for education and business.</p>
+        <ul class="subskills-list">
+          <li>Microsoft PowerPoint</li><li>Google Slides</li><li>Canva Presentation</li>
+          <li>Slide Design Principles</li><li>Data Visualization</li>
+        </ul>
+        <div class="skill-range"><span>95%</span><div class="progress"><div data-progress="95"></div></div></div>
+      </article>
+
+      <!-- AI & Automation -->
+      <article class="skill-card reveal" data-category="ai">
+        <img src="https://img.icons8.com/fluency/96/000000/artificial-intelligence.png" alt="AI">
+        <h3>AI & Automation</h3>
+        <p>I leverage AI tools and automation to enhance productivity.</p>
+        <ul class="subskills-list">
+          <li>ChatGPT & GPT APIs</li><li>Data Analysis</li>
+        </ul>
+        <div class="skill-range"><span>80%</span><div class="progress"><div data-progress="80"></div></div></div>
+      </article>
+
+      <!-- Programming -->
+      <article class="skill-card reveal" data-category="programming">
+        <img src="https://img.icons8.com/fluency/96/000000/programming.png" alt="Programming">
+        <h3>Programming</h3>
+        <p>Strong coding skills to solve problems and build apps.</p>
+        <ul class="subskills-list">
+          <li>JavaScript</li><li>OOP</li><li>Data Structures & Algorithms</li>
+          <li>Version Control (Git)</li><li>Debugging & Testing</li>
+        </ul>
+        <div class="skill-range"><span>88%</span><div class="progress"><div data-progress="88"></div></div></div>
+      </article>
+
+      <!-- Communication -->
+      <article class="skill-card reveal" data-category="soft">
+        <img src="https://img.icons8.com/fluency/96/000000/conference-call.png" alt="Communication">
+        <h3>Communication & Teamwork</h3>
+        <p>Excellent interpersonal skills for effective collaboration.</p>
+        <ul class="subskills-list">
+          <li>Active Listening</li><li>Presentation Skills</li><li>Conflict Resolution</li>
+          <li>Collaboration Tools</li><li>Remote Team Coordination</li>
+        </ul>
+        <div class="skill-range"><span>92%</span><div class="progress"><div data-progress="92"></div></div></div>
+      </article>
+
+      <!-- Problem Solving -->
+      <article class="skill-card reveal" data-category="creativity">
+        <img src="https://img.icons8.com/fluency/96/000000/brain.png" alt="Problem Solving">
+        <h3>Problem Solving & Creativity</h3>
+        <p>Analytical mindset and creativity to find innovative solutions.</p>
+        <ul class="subskills-list">
+          <li>Critical Thinking</li><li>Design Thinking</li><li>Innovative Ideation</li>
+          <li>Research & Analysis</li><li>Adaptability</li>
+        </ul>
+        <div class="skill-range"><span>87%</span><div class="progress"><div data-progress="87"></div></div></div>
+      </article>
+    </div>
+  </section>
+
+  <script>
+    // ===== Sidebar toggle =====
+    function toggleSidebar(){document.getElementById('sidebar').classList.toggle('active');}
+
+    // ===== Reveal on scroll =====
+    const revealCards=document.querySelectorAll('.reveal');
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          const bars=entry.target.querySelectorAll('.progress div');
+          bars.forEach(bar=>{bar.style.width=bar.dataset.progress+'%';});
+        }
+      });
+    },{threshold:0.2});
+    revealCards.forEach(card=>observer.observe(card));
+
+    // ===== Filter =====
+    const filterBtns=document.querySelectorAll('.filter-btn');
+    const cards=document.querySelectorAll('.skill-card');
+    filterBtns.forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        filterBtns.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat=btn.dataset.filter;
+        cards.forEach(card=>{
+          card.style.display=(cat==='all'||card.dataset.category===cat)?'':'none';
+        });
+      });
+    });
+     // Sidebar toggle functionality
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('sidebar');
+
+  sidebarToggle.addEventListener('click', () => {
+    const isActive = sidebar.classList.contains('active');
+    if (isActive) {
+      sidebar.classList.remove('active');
+      sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+      sidebarToggle.setAttribute('aria-expanded', 'false');
+    } else {
+      sidebar.classList.add('active');
+      sidebarToggle.querySelector('i').classList.replace('fa-bars', 'fa-times');
+      sidebarToggle.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // Close sidebar when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+      if (sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+        sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+        sidebarToggle.setAttribute('aria-expanded', 'false');
+      }
+    }
+  });
+
+  // ===== Enhanced authentication system =====
+  document.addEventListener('DOMContentLoaded', () => {
+    const loggedIn = localStorage.getItem('loggedIn');
+    const avatarUrl = localStorage.getItem('avatarUrl');
+    const userName = localStorage.getItem('userName') || 'User';
+    const userEmail = localStorage.getItem('userEmail') || '';
+
+    const authButtonsDiv = document.getElementById('auth-buttons');
+    const sidebarIcons = document.getElementById('sidebar-icons');
+
+    function restoreLoginSignup() {
+      // Desktop buttons
+      authButtonsDiv.innerHTML = `
+        <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
+        <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
+      `;
+
+      // Remove sidebar avatar if exists
+      const avatarBtn = sidebarIcons.querySelector('.sidebar-avatar-btn');
+      if (avatarBtn) avatarBtn.remove();
+
+      // Restore login + signup buttons in sidebar
+      const sidebarLoginBtn = document.createElement("button");
+      sidebarLoginBtn.className = "btn-login";
+      sidebarLoginBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i>`;
+      sidebarLoginBtn.onclick = () => location.href = "login.html";
+
+      const sidebarSignupBtn = document.createElement("button");
+      sidebarSignupBtn.className = "btn-signup";
+      sidebarSignupBtn.innerHTML = `<i class="fas fa-user-plus"></i>`;
+      sidebarSignupBtn.onclick = () => location.href = "signup.html";
+
+      sidebarIcons.appendChild(sidebarLoginBtn);
+      sidebarIcons.appendChild(sidebarSignupBtn);
+    }
+
+   if (loggedIn === 'true' && avatarUrl) {
+  // Replace desktop buttons with avatar
+  authButtonsDiv.innerHTML = `
+    <div class="avatar-container" tabindex="0" aria-label="User  menu">
+      <img src="${avatarUrl}" alt="User  Avatar" class="profile-photo"
+        style="width:40px; height:40px; border-radius:9999px; cursor:pointer; border: 2px solid rgba(79,70,229,0.3);"/>
+      <div class="avatar-dropdown">
+        <div style="padding: 0.75rem 1rem; border-bottom: 1px solid #f3f4f6; color: #374151;">
+          <div style="font-weight: 600; font-size: 0.9rem;">${userName}</div>
+          <div style="font-size: 0.8rem; color: #6b7280;">${userEmail}</div>
+        </div>
+        <button id="edit-profile-btn" ><i class="fas fa-user-edit"></i> Edit Profile</button>
+        <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+  `;
+     
+       const avatarContainer = authButtonsDiv.querySelector('.avatar-container');
+  const dropdown = authButtonsDiv.querySelector('.avatar-dropdown');
+  const logoutBtn = document.getElementById('logout-btn');
+  const editProfileBtn = document.getElementById('edit-profile-btn');
+  avatarContainer.addEventListener('click', () => {
+    const isVisible = dropdown.style.display === 'block';
+    dropdown.style.display = isVisible ? 'none' : 'block';
+  });
+  logoutBtn.addEventListener('click', () => {
+    localStorage.clear();
+    restoreLoginSignup();
+  });
+  if (editProfileBtn) {
+    editProfileBtn.addEventListener('click', () => {
+      // Redirect to edit profile page
+      location.href = 'edit-profile.html';
+    });
+  }
+  // Sidebar avatar code continues...
+
+
+      // Sidebar avatar
+      const existingButtons = sidebarIcons.querySelectorAll('button.btn-login, button.btn-signup');
+      existingButtons.forEach(btn => btn.remove());
+
+      const avatarBtn = document.createElement('button');
+      avatarBtn.classList.add('sidebar-avatar-btn');
+      avatarBtn.style.cssText = "width:44px;height:44px;border:none;background:transparent;cursor:pointer;padding:0;";
+      avatarBtn.innerHTML = `<img src="${avatarUrl}" alt="User Avatar" style="width:36px;height:36px;border-radius:9999px;object-fit:cover;border:2px solid rgba(79,70,229,0.3);" />`;
+
+ // Sidebar logout dropdown (mini button)
+const sidebarDropdown = document.createElement("div");
+sidebarDropdown.className = "sidebar-avatar-dropdown";
+sidebarDropdown.innerHTML = `
+  <button id="sidebar-logout-btn" class="mini-logout-btn">
+    <i class="fas fa-sign-out-alt"></i>
+  </button>
+`;
+sidebarDropdown.style.display = "none";
+avatarBtn.appendChild(sidebarDropdown);
+
+avatarBtn.addEventListener("click", () => {
+  sidebarDropdown.style.display = sidebarDropdown.style.display === "block" ? "none" : "block";
+});
+
+
+      sidebarIcons.appendChild(avatarBtn);
+
+      document.getElementById("sidebar-logout-btn").addEventListener("click", () => {
+        localStorage.clear();
+        restoreLoginSignup();
+      });
+    }
+  });
+
+  // Close sidebar on resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768 && sidebar.classList.contains('active')) {
+      sidebar.classList.remove('active');
+      sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+      sidebarToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+  </script>
+</body>
+</html>
