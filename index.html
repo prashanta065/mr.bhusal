@@ -573,102 +573,6 @@
 </head>
 <body> 
    
-<!-- Enhanced AI Assistant Button with advanced icons and professional styling -->
-<button class="ai-fab" id="aiFab">
-  <div class="fab-content">
-    <div class="logo-container">
-      <span class="logo">PB</span>
-      <div class="status-indicator"></div>
-    </div>
-    <div class="fab-text">
-      <span class="ai-text">Ask Prashanta</span>
-      <span class="subtitle">AI Assistant</span>
-    </div>
-    <div class="fab-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      </svg>
-    </div>
-  </div>
-</button>
-
-<!-- AI Assistant Modal (hidden by default) -->
-<div class="ai-overlay" id="aiOverlay"></div>
-<div class="ai-modal" id="aiModal" role="dialog" aria-label="AI Assistant">
-  <div class="ai-header" id="dragHandle">
-    <div class="ai-title">
-      <div class="header-logo">
-        <span class="logo">PB</span>
-        <div class="pulse-ring"></div>
-      </div>
-      <div class="title-text">
-        <span class="main-title">Prashanta's AI Assistant</span>
-        <span class="subtitle-text">Professional AI Helper</span>
-      </div>
-      <span class="badge online">Online</span>
-    </div>
-    <div class="ai-actions">
-      <button class="ai-icon-btn" id="voiceToggle" title="Toggle Voice">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3Z"/>
-          <path d="M19 11a7 7 0 1 1-14 0"/>
-          <path d="M12 18v3"/>
-        </svg>
-      </button>
-      <button class="ai-icon-btn minimize-btn" id="minimizeBtn" title="Minimize">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M6 9l6 6 6-6"/>
-        </svg>
-      </button>
-      <button class="ai-icon-btn ai-close" id="aiClose" title="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18"/>
-          <path d="M6 6l12 12"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <div class="ai-suggestions" id="suggestions"></div>
-  <div class="ai-chat" id="chat">
-    <div class="welcome-message">
-      <div class="welcome-avatar">
-        <span class="logo">PB</span>
-      </div>
-      <div class="welcome-text">
-        <h3>Welcome! I'm Prashanta's AI Assistant</h3>
-        <p>I can help you learn about Prashanta's skills, projects, education, and services. Feel free to ask me anything!</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="ai-input">
-    <div class="input-container">
-      <input class="textfield" id="input" placeholder="Ask anything about Prashanta Bhusal…" />
-      <div class="input-actions">
-        <button class="mic" id="micBtn" title="Voice input">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3Z"/>
-            <path d="M19 11a7 7 0 1 1-14 0"/>
-            <path d="M12 18v3"/>
-          </svg>
-          <span class="lang-indicator">🇺🇸</span>
-        </button>
-        <button class="send" id="sendBtn" title="Send">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 2L11 13"/>
-            <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Include the external files -->
-<link rel="stylesheet" href="ai-assistant.css">
-<script src="ai-assistant.js"></script>
-
   <header>
     <div class="logo" aria-label="Mr. Bhusal logo">
       <img src="./logopb.png" alt="Prashanta Bhusal" />
@@ -904,3 +808,4 @@ avatarBtn.addEventListener("click", () => {
 
 </body>
 </html>
+
