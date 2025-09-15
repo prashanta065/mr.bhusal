@@ -272,90 +272,301 @@
       color: white;
     }
 
-    /* Enhanced sidebar styling */
-    #sidebar-toggle {
-      background: linear-gradient(135deg, #4f46e5, #3b82f6);
-      border-radius: 9999px;
-      width: 44px;
-      height: 44px;
-      border: none;
-      color: white;
-      font-size: 1.8rem;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
-      transition: all 0.3s ease;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-      z-index: 1600;
-    }
-
-    #sidebar-toggle:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
-    }
-
+    /* Sidebar Base */
     #sidebar {
       position: fixed;
-      top: 0.99rem;
-      bottom: 0.75rem;
+      top: 1rem;
+      bottom: 1rem;
       right: 0;
       width: 70px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.694) 100%);
-      backdrop-filter: blur(20px);
-      box-shadow: -4px 0 20px rgba(79, 70, 229, 0.3);
-      padding: 1rem 0;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px 0 0 16px;
+      box-shadow: -6px 0 25px rgba(0, 0, 0, 0.15);
       transform: translateX(70px);
-      transition: transform 0.3s ease;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       z-index: 1550;
-      user-select: none;
-        border: 2px solid #160cc6; /* border thickness and color */
-  border-radius: 10px;    
-  padding: 20px;  
+      overflow: visible;
+      padding-left: 10px;
     }
 
+    /* Expanded State when active via hamburger */
     #sidebar.active {
       transform: translateX(0);
     }
 
+    /* Hover expansion */
+    #sidebar:hover {
+      width: 230px;
+    }
+
+    /* Icon Container */
     #sidebar-icons {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 0.75rem;
       width: 100%;
-      align-items: center;
-      margin-top: 0.75rem;
+      margin-top: 1.5rem;
+      padding-left: 6px;
+      padding-right: 8px;
+      box-sizing: border-box;
     }
 
-    #sidebar-icons a, #sidebar-icons button {
-      width: 35px;
-      height: 36px;
-      font-size: 1.8rem;
-      color: #ea1212;
+    /* Links & Buttons */
+    #sidebar-icons a,
+    #sidebar-icons button {
+      width: 100%;
+      height: 48px;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #444;
       background: transparent;
       border: none;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 14px;
+      border-radius: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+      text-decoration: none;
+    }
+
+    /* Icon only default */
+    #sidebar-icons i {
+      flex-shrink: 0;
+      font-size: 1.4rem;
+      color: #555;
+      transition: color 0.25s ease;
+      width: 28px;
+      text-align: center;
+    }
+
+    /* Text Label */
+    #sidebar-icons span {
+      opacity: 0;
+      font-size: 0.95rem;
+      color: #111;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      transform: translateX(-8px);
+      pointer-events: none;
+    }
+
+    /* Show text when expanded */
+    #sidebar:hover #sidebar-icons span,
+    #sidebar.active #sidebar-icons span {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Hover State */
+    #sidebar-icons a:hover,
+    #sidebar-icons button:hover {
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      color: white;
+      transform: translateX(-2px);
+      box-shadow: 0 4px 18px rgba(79, 70, 229, 0.25);
+    }
+
+    #sidebar-icons a:hover i,
+    #sidebar-icons button:hover i {
+      color: white;
+    }
+
+    /* Active/Selected State */
+    #sidebar-icons a.active,
+    #sidebar-icons button.active {
+      background: linear-gradient(135deg, #6366f1, #3b82f6);
+      color: white;
+      font-weight: 600;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #sidebar-icons a.active i,
+    #sidebar-icons button.active i {
+      color: white;
+    }
+
+    /* Tooltip element (dynamic) */
+    .sidebar-tooltip {
+      position: absolute;
+      right: 80px; /* default when sidebar is collapsed */
+      background: #111827;
+      color: white;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      pointer-events: none;
+      transform-origin: right center;
+      opacity: 0;
+      transform: translateX(6px) scale(0.98);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 9999;
+    }
+
+    .sidebar-tooltip.visible {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+
+    /* Profile panel inside sidebar (for logged-in users) */
+    .sidebar-profile-panel {
+      position: absolute;
+      right: 76px; /* position outside collapsed sidebar */
+      top: 20%;
+      width: 300px;
+      max-width: calc(100vw - 100px);
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+      border: 1px solid rgba(79,70,229,0.06);
+      display: none;
+      z-index: 2000;
+      overflow: hidden;
+    }
+
+    .sidebar-profile-panel .panel-head {
+      padding: 1rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .sidebar-profile-panel .panel-head img {
+      width: 56px;
+      height: 56px;
+      border-radius: 9999px;
+      object-fit: cover;
+      border: 2px solid rgba(79,70,229,0.12);
+    }
+
+    .sidebar-profile-panel .panel-body {
+      padding: 0.75rem 1rem;
+    }
+
+    .sidebar-profile-panel .panel-body .name {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-profile-panel .panel-body .email {
+      font-size: 0.88rem;
+      color: #6b7280;
+      margin-bottom: 0.75rem;
+    }
+
+    .sidebar-profile-panel .panel-actions {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem 1.25rem 1rem;
+    }
+
+    .sidebar-profile-panel .panel-actions button {
+      flex: 1;
+      padding: 0.6rem 0.75rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-panel-edit {
+      background: linear-gradient(135deg,#4f46e5,#3b82f6);
+      color: #fff;
+    }
+
+    .btn-panel-logout {
+      background: linear-gradient(135deg,#ef4444,#dc2626);
+      color: #fff;
+    }
+
+    /* Sidebar avatar tiny dropdown for compact mode */
+    .sidebar-avatar-dropdown {
+      position: absolute;
+      top: 50%;
+      left: -60px; /* adjust horizontal position */
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0);
+      border-radius: 0.35rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      padding: 0.1rem; /* small padding for icon */
+      min-width: 36px;
+      min-height: 36px;
+      display: none;
+      z-index: 2000;
+      border: 1px solid rgba(79,70,229,0.1);
+      text-align: center;
+      animation: dropdownSlide 0.3s ease-out;
+    }
+
+    .sidebar-avatar-dropdown button {
       display: flex;
       align-items: center;
       justify-content: center;
-      user-select: none;
-      position: relative;
-      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      font-size: 1rem;
+      color: #ef4444; /* red icon */
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 0.35rem;
+      transition: all 0.2s ease;
     }
 
-    #sidebar-icons a:hover, #sidebar-icons button:hover {
-      color: rgb(210, 28, 28);
-      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    .sidebar-avatar-dropdown button i {
+      font-size: 1rem; /* icon size */
+      color: #ef4444; /* red icon */
+    }
+
+    .sidebar-avatar-dropdown button:hover {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+
+    /* Make only the sidebar login/signup icon backgrounds transparent */
+    #sidebar-icons .btn-login,
+    #sidebar-icons .btn-signup {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    #sidebar-icons .btn-login:hover,
+    #sidebar-icons .btn-signup:hover {
+      background: transparent !important;
+      box-shadow: none !important;
       transform: scale(1.1);
-      box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4);
+      color: #ea1212; /* keep hover color or adjust as desired */
     }
 
-   main.main-content {
+    @media (min-width: 768px) {
+      #sidebar { display: none !important; }
+      #sidebar-toggle { display: none !important; }
+      nav.desktop-nav { display: flex !important; }
+      #auth-buttons { display: flex !important; }
+    }
+
+    @media (max-width: 767px) {
+      #sidebar-toggle { display: flex; }
+      nav.desktop-nav, #auth-buttons { display: none; }
+      main.main-content { margin-top: 5.5rem; padding: 1rem; }
+      h1 { font-size: 2rem; }
+    }
+     main.main-content {
   max-width: 1200px;
   margin: 0.25rem auto 2rem auto; /* tiny gap on top */
   padding: 1rem 2rem;
@@ -423,152 +634,6 @@
       box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
       background: rgba(255, 255, 255, 0.2);
     }
-
-    /* Specific styling for sidebar avatar dropdown positioning */
-  /* Sidebar logout dropdown - icon only */
-.sidebar-avatar-dropdown {
-  position: absolute;
-  top: 50%;
-  left: -60px; /* adjust horizontal position */
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0);
-  border-radius: 0.35rem;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  padding: 0.1rem; /* small padding for icon */
-  min-width: 36px;
-  min-height: 36px;
-  display: none;
-  z-index: 2000;
-  border: 1px solid rgba(79,70,229,0.1);
-  text-align: center;
-  animation: dropdownSlide 0.3s ease-out;
-}
-
-.sidebar-avatar-dropdown button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  font-size: 1rem;
-  color: #ef4444; /* red icon */
-  background: none;
-  border: none;
-  cursor: pointer;
-  border-radius: 0.35rem;
-  transition: all 0.2s ease;
-}
-
-.sidebar-avatar-dropdown button i {
-  font-size: 1rem; /* icon size */
-  color: #ef4444; /* red icon */
-}
-
-.sidebar-avatar-dropdown button:hover {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  color: white;
-}
-
-@media (max-width: 480px) {
-  .sidebar-avatar-dropdown {
-    left: -50px;
-    min-width: 32px;
-    min-height: 32px;
-  }
-  .sidebar-avatar-dropdown button i {
-    font-size: 0.85rem;
-  }
-}
-
-@media (max-width: 360px) {
-  .sidebar-avatar-dropdown {
-    left: -45px;
-    min-width: 28px;
-    min-height: 28px;
-  }
-  .sidebar-avatar-dropdown button i {
-    font-size: 0.75rem;
-  }
-}
-
-
-    /* Responsive design */
-    @media (min-width: 768px) {
-      #sidebar { display: none !important; }
-      #sidebar-toggle { display: none !important; }
-      nav.desktop-nav { display: flex !important; }
-      #auth-buttons { display: flex !important; }
-    }
-
-    @media (max-width: 767px) {
-      #sidebar-toggle { display: flex; }
-      nav.desktop-nav, #auth-buttons { display: none; }
-      main.main-content { margin-top: 5.5rem; padding: 1rem; }
-      h1 { font-size: 2rem; }
-    }
-    /* Mini sidebar logout button */
-.mini-logout-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;        /* Small space between icon and text */
-  width: auto;         /* Auto width */
-  padding: 0.25rem 0.5rem; /* Tiny padding */
-  font-size: 0.75rem;  /* Smaller font */
-  font-weight: 600;
-  background: none;
-  border: none;
-  color: #ef4444;
-  cursor: pointer;
-  border-radius: 0.375rem;
-  transition: all 0.2s ease;
-}
-
-.mini-logout-btn i {
-  font-size: 0.85rem; /* smaller icon */
-}
-
-.mini-logout-btn:hover {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  color: white;
-}
-
-@media (max-width: 480px) {
-  .mini-logout-btn {
-    padding: 0.2rem 0.4rem;
-    font-size: 0.7rem;
-  }
-
-  .mini-logout-btn i {
-    font-size: 0.75rem;
-  }
-}
-
-@media (max-width: 360px) {
-  .mini-logout-btn {
-    padding: 0.15rem 0.35rem;
-    font-size: 0.65rem;
-  }
-
-  .mini-logout-btn i {
-    font-size: 0.7rem;
-  }
-}
-
-/* Make only the sidebar login/signup icon backgrounds transparent */
-#sidebar-icons .btn-login,
-#sidebar-icons .btn-signup {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-#sidebar-icons .btn-login:hover,
-#sidebar-icons .btn-signup:hover {
-  background: transparent !important;
-  box-shadow: none !important;
-  transform: scale(1.1);
-  color: #ea1212; /* keep hover color or adjust as desired */
-}
   </style>
 </head>
 <body> 
@@ -593,24 +658,75 @@
       <i class="fas fa-bars"></i>
     </button>
   </header>
+
+  <!-- =========================
+       SIDEBAR (only area changed)
+       ========================= -->
   <aside id="sidebar" role="navigation" aria-label="Sidebar navigation" tabindex="-1">
-    <div id="sidebar-icons" role="menu">
-      <a href="index.html" aria-label="Home" data-tooltip="Home" role="menuitem" tabindex="0"><i class="fas fa-home"></i></a>
-      <a href="about.html" aria-label="About" data-tooltip="About" role="menuitem" tabindex="0"><i class="fas fa-user"></i></a>
-      <a href="skills.html" aria-label="Skills" data-tooltip="Skills" role="menuitem" tabindex="0"><i class="fas fa-code"></i></a>
-      <a href="services.html" aria-label="Services" data-tooltip="Services" role="menuitem" tabindex="0"><i class="fas fa-briefcase"></i></a>
-      <a href="contact.html" aria-label="Contact" data-tooltip="Contact" role="menuitem" tabindex="0"><i class="fas fa-envelope"></i></a>
-    <!-- Modern Login & Signup Buttons -->
-<button class="btn-login" type="button" aria-label="Login" data-tooltip="Login" onclick="location.href='login.html'" role="menuitem" tabindex="0">
-  <i class="fas fa-right-to-bracket"></i> <!-- Modern login icon -->
-</button>
+    <div id="sidebar-icons" role="menu" aria-hidden="false">
+      <!-- Each item includes data-label for tooltip + span for expanded sidebar -->
+      <a href="index.html" aria-label="Home" data-label="Home" role="menuitem" tabindex="0" data-key="home">
+        <i class="fas fa-home" aria-hidden="true"></i>
+        <span>Home</span>
+      </a>
 
-<button class="btn-signup" type="button" aria-label="Sign Up" data-tooltip="Sign Up" onclick="location.href='signup.html'" role="menuitem" tabindex="0">
-  <i class="fas fa-user-plus"></i> <!-- Modern signup icon -->
-</button>
+      <a href="about.html" aria-label="About" data-label="About" role="menuitem" tabindex="0" data-key="about">
+        <i class="fas fa-user" aria-hidden="true"></i>
+        <span>About</span>
+      </a>
 
+      <a href="skills.html" aria-label="Skills" data-label="Skills" role="menuitem" tabindex="0" data-key="skills">
+        <i class="fas fa-code" aria-hidden="true"></i>
+        <span>Skills</span>
+      </a>
+
+      <a href="services.html" aria-label="Services" data-label="Services" role="menuitem" tabindex="0" data-key="services">
+        <i class="fas fa-briefcase" aria-hidden="true"></i>
+        <span>Services</span>
+      </a>
+
+      <a href="contact.html" aria-label="Contact" data-label="Contact" role="menuitem" tabindex="0" data-key="contact">
+        <i class="fas fa-envelope" aria-hidden="true"></i>
+        <span>Contact</span>
+      </a>
+
+      <!-- Divider -->
+      <div style="height: 1px; width: calc(100% - 20px); background: rgba(0,0,0,0.04); margin: 0.5rem 10px;"></div>
+
+      <!-- Login / Signup icons (will be replaced by avatar if logged in) -->
+      <button class="btn-login" type="button" aria-label="Login" data-label="Login" role="menuitem" tabindex="0">
+        <i class="fas fa-right-to-bracket" aria-hidden="true"></i>
+        <span>Login</span>
+      </button>
+
+      <button class="btn-signup" type="button" aria-label="Sign Up" data-label="Sign Up" role="menuitem" tabindex="0">
+        <i class="fas fa-user-plus" aria-hidden="true"></i>
+        <span>Sign Up</span>
+      </button>
+    </div>
+
+    <!-- dynamic tooltip used on hover (single shared element) -->
+    <div id="sidebar-tooltip" class="sidebar-tooltip" role="status" aria-live="polite" style="display:none;"></div>
+
+    <!-- profile panel (pop-out when clicking sidebar avatar) -->
+    <div id="sidebar-profile-panel" class="sidebar-profile-panel" aria-hidden="true">
+      <div class="panel-head">
+        <img id="panel-avatar" src="./prashanta.jpeg" alt="User avatar"/>
+        <div>
+          <div class="name" id="panel-name">User</div>
+          <div class="email" id="panel-email">user@example.com</div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div style="font-size:0.9rem;color:#374151;margin-bottom:0.5rem;">Manage your account</div>
+      </div>
+      <div class="panel-actions">
+        <button id="panel-edit" class="btn-panel-edit" type="button"><i class="fas fa-user-edit" style="margin-right:6px"></i>Edit</button>
+        <button id="panel-logout" class="btn-panel-logout" type="button"><i class="fas fa-sign-out-alt" style="margin-right:6px"></i>Logout</button>
+      </div>
     </div>
   </aside>
+
   <main class="main-content">
     <section id="home">
       <img src="prashanta.jpeg" alt="Prashanta Bhusal" class="profile-photo mx-auto mb-6" />
@@ -633,6 +749,7 @@
       </div>
     </section>
   </main>
+
   <script>
   // Typewriter effect
   const typewriter = new Typewriter(document.getElementById('typewriter'), {
@@ -676,7 +793,7 @@
     }
   });
 
-  // Close sidebar when clicking outside
+  // Close sidebar when clicking outside (for mobile)
   document.addEventListener('click', (e) => {
     if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
       if (sidebar.classList.contains('active')) {
@@ -684,114 +801,6 @@
         sidebarToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
         sidebarToggle.setAttribute('aria-expanded', 'false');
       }
-    }
-  });
-
-  // ===== Enhanced authentication system =====
-  document.addEventListener('DOMContentLoaded', () => {
-    const loggedIn = localStorage.getItem('loggedIn');
-    const avatarUrl = localStorage.getItem('avatarUrl');
-    const userName = localStorage.getItem('userName') || 'User';
-    const userEmail = localStorage.getItem('userEmail') || '';
-
-    const authButtonsDiv = document.getElementById('auth-buttons');
-    const sidebarIcons = document.getElementById('sidebar-icons');
-
-    function restoreLoginSignup() {
-      // Desktop buttons
-      authButtonsDiv.innerHTML = `
-        <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
-        <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
-      `;
-
-      // Remove sidebar avatar if exists
-      const avatarBtn = sidebarIcons.querySelector('.sidebar-avatar-btn');
-      if (avatarBtn) avatarBtn.remove();
-
-      // Restore login + signup buttons in sidebar
-      const sidebarLoginBtn = document.createElement("button");
-      sidebarLoginBtn.className = "btn-login";
-      sidebarLoginBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i>`;
-      sidebarLoginBtn.onclick = () => location.href = "login.html";
-
-      const sidebarSignupBtn = document.createElement("button");
-      sidebarSignupBtn.className = "btn-signup";
-      sidebarSignupBtn.innerHTML = `<i class="fas fa-user-plus"></i>`;
-      sidebarSignupBtn.onclick = () => location.href = "signup.html";
-
-      sidebarIcons.appendChild(sidebarLoginBtn);
-      sidebarIcons.appendChild(sidebarSignupBtn);
-    }
-
-   if (loggedIn === 'true' && avatarUrl) {
-  // Replace desktop buttons with avatar
-  authButtonsDiv.innerHTML = `
-    <div class="avatar-container" tabindex="0" aria-label="User  menu">
-      <img src="${avatarUrl}" alt="User  Avatar" class="profile-photo"
-        style="width:40px; height:40px; border-radius:9999px; cursor:pointer; border: 2px solid rgba(79,70,229,0.3);"/>
-      <div class="avatar-dropdown">
-        <div style="padding: 0.75rem 1rem; border-bottom: 1px solid #f3f4f6; color: #374151;">
-          <div style="font-weight: 600; font-size: 0.9rem;">${userName}</div>
-          <div style="font-size: 0.8rem; color: #6b7280;">${userEmail}</div>
-        </div>
-        <button id="edit-profile-btn" ><i class="fas fa-user-edit"></i> Edit Profile</button>
-        <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-      </div>
-    </div>
-  `;
-     
-       const avatarContainer = authButtonsDiv.querySelector('.avatar-container');
-  const dropdown = authButtonsDiv.querySelector('.avatar-dropdown');
-  const logoutBtn = document.getElementById('logout-btn');
-  const editProfileBtn = document.getElementById('edit-profile-btn');
-  avatarContainer.addEventListener('click', () => {
-    const isVisible = dropdown.style.display === 'block';
-    dropdown.style.display = isVisible ? 'none' : 'block';
-  });
-  logoutBtn.addEventListener('click', () => {
-    localStorage.clear();
-    restoreLoginSignup();
-  });
-  if (editProfileBtn) {
-    editProfileBtn.addEventListener('click', () => {
-      // Redirect to edit profile page
-      location.href = 'edit-profile.html';
-    });
-  }
-  // Sidebar avatar code continues...
-
-
-      // Sidebar avatar
-      const existingButtons = sidebarIcons.querySelectorAll('button.btn-login, button.btn-signup');
-      existingButtons.forEach(btn => btn.remove());
-
-      const avatarBtn = document.createElement('button');
-      avatarBtn.classList.add('sidebar-avatar-btn');
-      avatarBtn.style.cssText = "width:44px;height:44px;border:none;background:transparent;cursor:pointer;padding:0;";
-      avatarBtn.innerHTML = `<img src="${avatarUrl}" alt="User Avatar" style="width:36px;height:36px;border-radius:9999px;object-fit:cover;border:2px solid rgba(79,70,229,0.3);" />`;
-
- // Sidebar logout dropdown (mini button)
-const sidebarDropdown = document.createElement("div");
-sidebarDropdown.className = "sidebar-avatar-dropdown";
-sidebarDropdown.innerHTML = `
-  <button id="sidebar-logout-btn" class="mini-logout-btn">
-    <i class="fas fa-sign-out-alt"></i>
-  </button>
-`;
-sidebarDropdown.style.display = "none";
-avatarBtn.appendChild(sidebarDropdown);
-
-avatarBtn.addEventListener("click", () => {
-  sidebarDropdown.style.display = sidebarDropdown.style.display === "block" ? "none" : "block";
-});
-
-
-      sidebarIcons.appendChild(avatarBtn);
-
-      document.getElementById("sidebar-logout-btn").addEventListener("click", () => {
-        localStorage.clear();
-        restoreLoginSignup();
-      });
     }
   });
 
@@ -803,9 +812,370 @@ avatarBtn.addEventListener("click", () => {
       sidebarToggle.setAttribute('aria-expanded', 'false');
     }
   });
-  
-</script>
+
+  // ======================
+  // Enhanced Sidebar JS
+  // ======================
+
+  (function() {
+    const sidebarIcons = document.getElementById('sidebar-icons');
+    const tooltip = document.getElementById('sidebar-tooltip');
+    const profilePanel = document.getElementById('sidebar-profile-panel');
+    const panelAvatar = document.getElementById('panel-avatar');
+    const panelName = document.getElementById('panel-name');
+    const panelEmail = document.getElementById('panel-email');
+    const panelEdit = document.getElementById('panel-edit');
+    const panelLogout = document.getElementById('panel-logout');
+
+    // Utility to show tooltip
+    function showTooltip(targetEl, text) {
+      tooltip.textContent = text;
+      tooltip.style.display = 'block';
+      tooltip.classList.add('visible');
+
+      // compute position: align vertically to the center of target element
+      const targetRect = targetEl.getBoundingClientRect();
+      const sidebarRect = sidebar.getBoundingClientRect();
+      const tooltipRect = tooltip.getBoundingClientRect();
+
+      // When sidebar is collapsed (narrow), place tooltip to the left of sidebar at icon vertical center
+      // We'll set top based on target center relative to viewport
+      const top = targetRect.top + (targetRect.height / 2) - (tooltipRect.height / 2);
+
+      // If sidebar is on right side, place tooltip to left of sidebar (we already set CSS right: 80px)
+      tooltip.style.top = `${Math.max(12, top)}px`;
+    }
+
+    function hideTooltip() {
+      tooltip.classList.remove('visible');
+      // small delay to allow animation then hide display
+      setTimeout(() => {
+        if (!tooltip.classList.contains('visible')) tooltip.style.display = 'none';
+      }, 180);
+    }
+
+    // Add hover & focus listeners to each interactive item in sidebar
+    function setupItems() {
+      const items = sidebarIcons.querySelectorAll('a, button');
+
+      items.forEach(item => {
+        const label = item.getAttribute('data-label') || item.querySelector('span')?.textContent || item.getAttribute('aria-label') || '';
+
+        // mouseenter
+        item.addEventListener('mouseenter', (e) => {
+          // show tooltip only when sidebar is collapsed OR always for better UX
+          showTooltip(item, label);
+        });
+
+        // mouseleave
+        item.addEventListener('mouseleave', (e) => {
+          hideTooltip();
+        });
+
+        // focus/blur for keyboard users
+        item.addEventListener('focus', (e) => {
+          showTooltip(item, label);
+        });
+
+        item.addEventListener('blur', (e) => {
+          hideTooltip();
+        });
+
+        // Click handling for login/signup if not logged in
+        if (item.classList.contains('btn-login')) {
+          item.addEventListener('click', (e) => {
+            // if a logged in user exists, open profile panel instead
+            if (localStorage.getItem('loggedIn') === 'true' && localStorage.getItem('avatarUrl')) {
+              e.preventDefault();
+              openProfilePanel();
+            } else {
+              // go to login page
+              location.href = 'login.html';
+            }
+          });
+        }
+
+        if (item.classList.contains('btn-signup')) {
+          item.addEventListener('click', (e) => {
+            // go to signup page
+            location.href = 'signup.html';
+          });
+        }
+      });
+    }
+
+    // Create an avatar button for sidebar if logged in, or keep login/signup if not
+    function renderSidebarAvatar() {
+      // Remove existing avatar btn if present (clean up)
+      const existing = sidebarIcons.querySelector('.sidebar-avatar-btn');
+      if (existing) existing.remove();
+
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      const avatarUrl = localStorage.getItem('avatarUrl');
+      const userName = localStorage.getItem('userName') || 'User';
+      const userEmail = localStorage.getItem('userEmail') || '';
+
+      if (loggedIn && avatarUrl) {
+        // Remove the login/signup buttons (we'll put avatar instead)
+        const loginBtn = sidebarIcons.querySelector('.btn-login');
+        const signupBtn = sidebarIcons.querySelector('.btn-signup');
+        if (loginBtn) loginBtn.remove();
+        if (signupBtn) signupBtn.remove();
+
+        // Create avatar button
+        const avatarBtn = document.createElement('button');
+        avatarBtn.className = 'sidebar-avatar-btn';
+        avatarBtn.style.cssText = "width:48px;height:48px;border:none;background:transparent;cursor:pointer;padding:0;position:relative;display:flex;align-items:center;";
+        avatarBtn.setAttribute('aria-label', 'User menu');
+        avatarBtn.setAttribute('title', 'Account');
+        avatarBtn.innerHTML = `
+          <img src="${avatarUrl}" alt="${userName}" style="width:40px;height:40px;border-radius:9999px;object-fit:cover;border:2px solid rgba(79,70,229,0.3);" />
+        `;
+
+        // Append avatar to end of list
+        sidebarIcons.appendChild(avatarBtn);
+
+        // Attach click: toggle profile panel
+        avatarBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // Toggle profile panel
+          if (profilePanel.style.display === 'block') {
+            closeProfilePanel();
+          } else {
+            openProfilePanel();
+          }
+        });
+
+        // keyboard users
+        avatarBtn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (profilePanel.style.display === 'block') {
+              closeProfilePanel();
+            } else {
+              openProfilePanel();
+            }
+          }
+        });
+
+      } else {
+        // If not logged in, ensure login/signup buttons exist (if removed earlier)
+        if (!sidebarIcons.querySelector('.btn-login')) {
+          const sidebarLoginBtn = document.createElement("button");
+          sidebarLoginBtn.className = "btn-login";
+          sidebarLoginBtn.innerHTML = `<i class="fas fa-right-to-bracket" aria-hidden="true"></i><span>Login</span>`;
+          sidebarLoginBtn.setAttribute('data-label', 'Login');
+          sidebarLoginBtn.onclick = () => location.href = "login.html";
+          sidebarIcons.appendChild(sidebarLoginBtn);
+        }
+        if (!sidebarIcons.querySelector('.btn-signup')) {
+          const sidebarSignupBtn = document.createElement("button");
+          sidebarSignupBtn.className = "btn-signup";
+          sidebarSignupBtn.innerHTML = `<i class="fas fa-user-plus" aria-hidden="true"></i><span>Sign Up</span>`;
+          sidebarSignupBtn.setAttribute('data-label', 'Sign Up');
+          sidebarSignupBtn.onclick = () => location.href = "signup.html";
+          sidebarIcons.appendChild(sidebarSignupBtn);
+        }
+      }
+    }
+
+    function openProfilePanel() {
+      // Fill panel from localStorage or fallback
+      const avatarUrl = localStorage.getItem('avatarUrl') || './prashanta.jpeg';
+      const userName = localStorage.getItem('userName') || 'User';
+      const userEmail = localStorage.getItem('userEmail') || '';
+
+      panelAvatar.src = avatarUrl;
+      panelName.textContent = userName;
+      panelEmail.textContent = userEmail;
+
+      // Show panel
+      profilePanel.style.display = 'block';
+      profilePanel.setAttribute('aria-hidden', 'false');
+
+      // close tooltip if open
+      hideTooltip();
+    }
+
+    function closeProfilePanel() {
+      profilePanel.style.display = 'none';
+      profilePanel.setAttribute('aria-hidden', 'true');
+    }
+
+    // Panel button behaviors
+    panelEdit.addEventListener('click', () => {
+      // redirect to edit-profile page as in desktop
+      location.href = 'edit-profile.html';
+    });
+
+    panelLogout.addEventListener('click', () => {
+      // Clear localStorage and re-render sidebar
+      localStorage.clear();
+      closeProfilePanel();
+      renderSidebarAvatar();
+      setupItems(); // rebind event listeners
+      restoreDesktopAuthButtons();
+    });
+
+    // Also close profile panel when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!profilePanel.contains(e.target) && !sidebar.contains(e.target)) {
+        closeProfilePanel();
+      }
+    });
+
+    // keyboard escape closes panel
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeProfilePanel();
+      }
+    });
+
+    // When mobile/responsive - ensure sidebar avatar still works; we will not show sidebar on >=768px (CSS handles it)
+    function restoreDesktopAuthButtons() {
+      // Keep desktop auth buttons updated as well (this mirrors existing code's approach)
+      const authButtonsDiv = document.getElementById('auth-buttons');
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      const avatarUrl = localStorage.getItem('avatarUrl');
+      const userName = localStorage.getItem('userName') || 'User';
+      const userEmail = localStorage.getItem('userEmail') || '';
+
+      if (loggedIn && avatarUrl) {
+        authButtonsDiv.innerHTML = `
+          <div class="avatar-container" tabindex="0" aria-label="User  menu">
+            <img src="${avatarUrl}" alt="User Avatar" class="profile-photo"
+              style="width:40px; height:40px; border-radius:9999px; cursor:pointer; border: 2px solid rgba(79,70,229,0.3);"/>
+            <div class="avatar-dropdown" style="display:none;">
+              <div style="padding: 0.75rem 1rem; border-bottom: 1px solid #f3f4f6; color: #374151;">
+                <div style="font-weight: 600; font-size: 0.9rem;">${userName}</div>
+                <div style="font-size: 0.8rem; color: #6b7280;">${userEmail}</div>
+              </div>
+              <button id="edit-profile-btn" ><i class="fas fa-user-edit"></i> Edit Profile</button>
+              <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+          </div>
+        `;
+
+        // attach dropdown toggles
+        const avatarContainer = authButtonsDiv.querySelector('.avatar-container');
+        const dropdown = authButtonsDiv.querySelector('.avatar-dropdown');
+        const logoutBtn = authButtonsDiv.querySelector('#logout-btn');
+        const editProfileBtn = authButtonsDiv.querySelector('#edit-profile-btn');
+
+        avatarContainer.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        editProfileBtn.addEventListener('click', () => {
+          location.href = 'edit-profile.html';
+        });
+
+        logoutBtn.addEventListener('click', () => {
+          localStorage.clear();
+          // restore desktop buttons
+          authButtonsDiv.innerHTML = `
+            <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
+            <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
+          `;
+          // restore sidebar avatar
+          renderSidebarAvatar();
+          setupItems();
+        });
+
+        // click outside to close
+        document.addEventListener('click', () => {
+          if (dropdown.style.display === 'block') dropdown.style.display = 'none';
+        }, { once: false });
+
+      } else {
+        authButtonsDiv.innerHTML = `
+          <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
+          <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
+        `;
+      }
+    }
+
+    // Initialize on load
+    function init() {
+      // ensure sidebar is present
+      renderSidebarAvatar();
+      setupItems();
+      restoreDesktopAuthButtons();
+
+      // Small accessibility: allow keyboard navigation to show tooltip on focus
+      // Already attached in setupItems
+
+      // If profilePanel is open and user resizes, close it to avoid weird overlay positions
+      window.addEventListener('resize', () => {
+        closeProfilePanel();
+      });
+    }
+
+    init();
+  })();
+
+  // ===== End enhanced sidebar JS =====
+
+  // ===== Keep previous desktop auth logic in DOMContentLoaded (non-conflicting) =====
+  document.addEventListener('DOMContentLoaded', () => {
+    const loggedIn = localStorage.getItem('loggedIn');
+    const avatarUrl = localStorage.getItem('avatarUrl');
+    const userName = localStorage.getItem('userName') || 'User';
+    const userEmail = localStorage.getItem('userEmail') || '';
+
+    const authButtonsDiv = document.getElementById('auth-buttons');
+
+    function restoreLoginSignup() {
+      authButtonsDiv.innerHTML = `
+        <button class="btn-login" type="button" onclick="location.href='login.html'">Login</button>
+        <button class="btn-signup" type="button" onclick="location.href='signup.html'">Sign Up</button>
+      `;
+    }
+
+    if (loggedIn === 'true' && avatarUrl) {
+      // set up desktop avatar UI (mirrors sidebar)
+      authButtonsDiv.innerHTML = `
+        <div class="avatar-container" tabindex="0" aria-label="User  menu">
+          <img src="${avatarUrl}" alt="User  Avatar" class="profile-photo"
+            style="width:40px; height:40px; border-radius:9999px; cursor:pointer; border: 2px solid rgba(79,70,229,0.3);"/>
+          <div class="avatar-dropdown" style="display:none;">
+            <div style="padding: 0.75rem 1rem; border-bottom: 1px solid #f3f4f6; color: #374151;">
+              <div style="font-weight: 600; font-size: 0.9rem;">${userName}</div>
+              <div style="font-size: 0.8rem; color: #6b7280;">${userEmail}</div>
+            </div>
+            <button id="edit-profile-btn-desk" ><i class="fas fa-user-edit"></i> Edit Profile</button>
+            <button id="logout-btn-desk"><i class="fas fa-sign-out-alt"></i> Logout</button>
+          </div>
+        </div>
+      `;
+
+      const avatarContainer = authButtonsDiv.querySelector('.avatar-container');
+      const dropdown = authButtonsDiv.querySelector('.avatar-dropdown');
+      const logoutBtn = document.getElementById('logout-btn-desk');
+      const editProfileBtn = document.getElementById('edit-profile-btn-desk');
+
+      avatarContainer.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+      });
+      logoutBtn.addEventListener('click', () => {
+        localStorage.clear();
+        restoreLoginSignup();
+        // update sidebar accordingly
+        setTimeout(() => { location.reload(); }, 0);
+      });
+      if (editProfileBtn) {
+        editProfileBtn.addEventListener('click', () => {
+          location.href = 'edit-profile.html';
+        });
+      }
+    } else {
+      restoreLoginSignup();
+    }
+  });
+
+  </script>
 
 </body>
 </html>
-
